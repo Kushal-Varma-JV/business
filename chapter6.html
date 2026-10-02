@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 6 · Staffing</title>
+<style>
+  :root{--ink:#1d2433;--mute:#5b6577;--bg:#f4f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px}
+  header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:18px 16px 14px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:4px 0 0;opacity:.9;font-size:13px}
+  .chaps{display:flex;gap:6px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
+  .chaps::-webkit-scrollbar{display:none}
+  .chaps a{flex:none;text-decoration:none;color:#fff;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+  .chaps a.on{background:#fff;color:#4f46e5}
+  nav{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:6px;overflow-x:auto;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,.07);scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none;text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600}
+  main{max-width:720px;margin:auto;padding:4px 12px 90px}
+  .card{background:#fff;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:5px solid var(--c);scroll-margin-top:56px}
+  h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .num{background:var(--c);color:#fff;border-radius:8px;min-width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+  h3{font-size:14px;margin:14px 0 6px;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+  .def{background:#f1f5ff;border-radius:10px;padding:10px 12px;font-weight:600}
+  .def small{display:block;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
+  .mn{background:#fff7ed;border:1px dashed #fb923c;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+  .mn u{text-decoration:none;color:#ea580c;font-weight:800;font-size:16px}
+  ul.k{list-style:none;padding:0;margin:0}
+  ul.k li{padding:8px 0;border-bottom:1px solid #eef0f4}
+  ul.k li:last-child{border-bottom:none}
+  ul.k b{color:var(--c)}
+  .d{color:var(--mute);transition:filter .2s}
+  body.recall .d{filter:blur(5px);cursor:pointer;user-select:none}
+  body.recall .d.show{filter:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+  .full{grid-column:1/-1}
+  .box{border-radius:10px;padding:10px;background:#f8fafc;font-size:14px}
+  .box b{display:block;font-size:15px;margin-bottom:2px}
+  .y{color:#16a34a;font-weight:800}
+  .n{color:#dc2626;font-weight:800}
+  .p{color:#d97706;font-weight:800}
+  .legend{font-size:13px;color:var(--mute);margin-bottom:4px}
+  .row{display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:14px}
+  .tag{flex:none;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;margin-top:1px}
+  .tag.r{background:#f3e8ff;color:#7e22ce}
+  .tag.m{background:#dcfce7;color:#15803d}
+  .verdict{font-weight:700;background:#faf5ff;border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+  .flow{display:flex;flex-wrap:wrap;gap:6px}
+  .step{flex:1 1 45%;min-width:140px;background:#f0fdfa;border-radius:10px;padding:8px 10px;font-size:14px}
+  .step b{color:#0d9488;font-size:16px}
+  .hook{background:#ecfdf5;border-radius:8px;padding:6px 10px;font-size:14px;margin-top:8px}
+  .tw{overflow-x:auto;margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td,th{padding:6px 5px;border-bottom:1px solid #eef0f4;text-align:left;vertical-align:top}
+  th{background:#f8fafc;color:var(--c)}
+  td:first-child{font-weight:700}
+  .chart{text-align:center;margin:10px 0}
+  .chart .top{display:inline-block;background:var(--c);color:#fff;border-radius:8px;padding:5px 12px;font-weight:700;font-size:13px}
+  .chart .line{width:2px;height:10px;background:#cbd5e1;margin:0 auto}
+  .chart .kids{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;border-top:2px solid #cbd5e1;padding-top:8px}
+  .chart .kids span{background:#f1f5f9;border-radius:6px;padding:4px 7px;font-size:12px;font-weight:600}
+  .chart .kids span.hi{background:var(--c);color:#fff}
+  .chart .lab{font-size:11px;color:var(--mute);margin:6px 0 2px}
+  #t{position:fixed;right:14px;bottom:16px;z-index:9;border:none;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;color:#fff;background:#111827;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  @media(max-width:420px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ch 6 · Staffing</h1>
+  <p>Tap 🧠 Test Me to hide answers → tap blurred text to reveal</p>
+  <!--
+    CHAPTER FILE NAMES (keep all files in the same folder):
+    Ch 1 = index.html
+    Ch 2 = chapter2.html   Ch 3 = chapter3.html   Ch 4 = chapter4.html
+    Ch 5 = chapter5.html   Ch 6 = chapter6.html   Ch 7 = chapter7.html
+    Ch 8 = chapter8.html
+    In each file, put class="on" on that chapter's own button.
+  -->
+  <div class="chaps">
+    <a href="index.html">1 · Nature</a>
+    <a href="chapter2.html">2 · Principles</a>
+    <a href="chapter3.html">3 · Environment</a>
+    <a href="chapter4.html">4 · Planning</a>
+    <a href="chapter5.html">5 · Organising</a>
+    <a href="chapter6.html" class="on">6 · Staffing</a>
+    <a href="chapter7.html">7 · Directing</a>
+    <a href="chapter8.html">8 · Controlling</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#concept">Concept</a><a href="#imp">Importance</a><a href="#hrm">HRM</a><a href="#process">Process</a><a href="#recruit">Recruitment</a><a href="#select">Selection</a><a href="#td">T&amp;D</a><a href="#methods">Methods</a>
+</nav>
+
+<main>
+
+<!-- 1 CONCEPT -->
+<section class="card" id="concept" style="--c:#4f46e5">
+  <h2><span class="num">1</span>Concept</h2>
+  <div class="def">Staffing = managerial function of <u>filling</u> & <u>keeping filled</u> the positions in the organisation structure.
+    <small>Simplest terms: "putting people to jobs". Concerned with obtaining, utilising & maintaining a satisfactory and satisfied workforce.</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>🆕 New enterprise</b><span class="d">Follows planning & organising (structure reveals HR needs)</span></div>
+    <div class="box"><b>🔁 Existing enterprise</b><span class="d">Continuous: new jobs created, employees leave</span></div>
+    <div class="box full"><b>📋 Covers</b><span class="d">Workforce planning → recruitment, selection, placement, training, development, promotion, compensation, appraisal (incl. daily wagers, consultants, contract staff)</span></div>
+  </div>
+  <div class="hook">🔑 Aim = <b>Right person, right job</b>, in the right number, at the right time</div>
+  <div class="hook">📌 Infosys: "Our assets walk out of the door each evening" → <span class="d">people = most important asset; must attract, retain & develop them</span></div>
+</section>
+
+<!-- 2 IMPORTANCE -->
+<section class="card" id="imp" style="--c:#d97706">
+  <h2><span class="num">2</span>Importance (5)</h2>
+  <div class="mn">🧠 <u>D</u>on't <u>H</u>ire <u>S</u>leepy <u>O</u>ld <u>J</u>oggers</div>
+  <ul class="k">
+    <li><b>Discovers competent personnel</b> <span class="d">— finds & obtains capable people for various jobs</span></li>
+    <li><b>Higher performance</b> <span class="d">— right person on the right job</span></li>
+    <li><b>Survival & growth</b> <span class="d">— through succession planning for managers</span></li>
+    <li><b>Optimum utilisation</b> <span class="d">— avoids overmanning (under-use, high labour cost) & flags shortages in advance</span></li>
+    <li><b>Job satisfaction & morale</b> <span class="d">— objective assessment & fair reward</span></li>
+  </ul>
+  <div class="hook">📈 More important today due to → <span class="d">rapid technology change · bigger organisations · complicated human behaviour</span></div>
+  <div class="hook">⚠️ Wrong people → <span class="d">waste of material, time & effort → low productivity, poor quality, lower profits</span></div>
+</section>
+
+<!-- 3 STAFFING & HRM -->
+<section class="card" id="hrm" style="--c:#0891b2">
+  <h2><span class="num">3</span>Staffing & HRM</h2>
+  <div class="def">Staffing = inherent part of HRM: finding, evaluating & establishing a working relationship with people.</div>
+  <div class="grid2">
+    <div class="box"><b>👔 Generic function</b><span class="d">Every manager performs it; deals with the human element</span></div>
+    <div class="box"><b>🏢 Small vs large org</b><span class="d">Small: manager does all HR duties · Large: separate HR department of specialists</span></div>
+    <div class="box full"><b>↕️ Line + Staff activity</b><span class="d">Line = essential function of every manager · Staff = advisory role of the HR department</span></div>
+    <div class="box full"><b>🔀 Both</b><span class="d">A function of management (like planning, directing) AND a distinct functional area (like marketing, finance)</span></div>
+  </div>
+
+  <h3>HRM Duties (8)</h3>
+  <div class="mn">🧠 <u>R</u>eally <u>A</u>ngry <u>C</u>ats <u>T</u>rash <u>L</u>ittle <u>G</u>ardens <u>S</u>o <u>D</u>eliberately</div>
+  <ul class="k">
+    <li><b>Recruitment</b> <span class="d">— search for qualified people</span></li>
+    <li><b>Analysing jobs</b> <span class="d">— collect info → prepare job descriptions</span></li>
+    <li><b>Compensation</b> <span class="d">— develop pay & incentive plans</span></li>
+    <li><b>Training & development</b> <span class="d">— efficient performance + career growth</span></li>
+    <li><b>Labour relations</b> <span class="d">— maintain union–management relations</span></li>
+    <li><b>Grievances</b> <span class="d">— handle complaints</span></li>
+    <li><b>Social security</b> <span class="d">— welfare of employees</span></li>
+    <li><b>Defending lawsuits</b> <span class="d">— avoid legal complications</span></li>
+  </ul>
+
+  <h3>Evolution of HRM</h3>
+  <div class="flow">
+    <div class="step"><b>1.</b> Labour Welfare Officer<br><span class="d">Trade union movement needed a link between owners & workers; minimal welfare; looked down on by both</span></div>
+    <div class="step"><b>2.</b> Personnel Officer → Manager<br><span class="d">Factory system: thousands under one roof → recruitment, selection & placement</span></div>
+    <div class="step"><b>3.</b> HR Manager<br><span class="d">Human relations approach + fast-changing technology → people seen as a resource to develop</span></div>
+  </div>
+  <div class="hook">🔑 <b>Welfare → Personnel → Human Resource</b></div>
+</section>
+
+<!-- 4 PROCESS -->
+<section class="card" id="process" style="--c:#0d9488">
+  <h2><span class="num">4</span>Staffing Process (8 Steps)</h2>
+  <div class="mn">🧠 <u>E</u>very <u>R</u>ich <u>S</u>tudent <u>P</u>lays <u>T</u>ennis → + <u>P</u>lease <u>P</u>ay <u>C</u>ash <small>(3 extra steps when the line manager does staffing in small orgs)</small></div>
+  <div class="flow">
+    <div class="step"><b>1. E</b>stimate manpower<br><span class="d">How many + what type → job description + candidate profile</span></div>
+    <div class="step"><b>2. R</b>ecruitment<br><span class="d">Search candidates & stimulate them to apply → create a pool</span></div>
+    <div class="step"><b>3. S</b>election<br><span class="d">Choose the best from the pool → employment contract</span></div>
+    <div class="step"><b>4. P</b>lacement & Orientation<br><span class="d">Orientation = intro to colleagues + rules & policies · Placement = occupying the post</span></div>
+    <div class="step"><b>5. T</b>raining & Development<br><span class="d">Career growth → helps attract & retain talent</span></div>
+    <div class="step"><b>6. P</b>erformance appraisal<br><span class="d">Evaluate current/past performance vs set standards + give feedback</span></div>
+    <div class="step"><b>7. P</b>romotion & career planning<br><span class="d">Higher responsibility, pay & job satisfaction</span></div>
+    <div class="step"><b>8. C</b>ompensation<br><span class="d">All forms of pay or rewards to employees</span></div>
+  </div>
+
+  <h3>Estimating Manpower</h3>
+  <div class="grid2">
+    <div class="box"><b>📦 Workload analysis</b><span class="d">Number & type of people NEEDED</span></div>
+    <div class="box"><b>👥 Workforce analysis</b><span class="d">Number & type of people AVAILABLE</span></div>
+    <div class="box"><b>Overstaffed</b><span class="d">→ removal or transfer</span></div>
+    <div class="box"><b>Understaffed</b><span class="d">→ start recruitment</span></div>
+  </div>
+  <div class="hook">⚖️ Neither over- nor under-staffing is desirable</div>
+  <div class="hook">🌈 Diversity → <span class="d">redefine needs to include women, backward communities & persons with special abilities</span></div>
+
+  <h3>Compensation</h3>
+  <div class="grid2">
+    <div class="box"><b>💵 Direct</b><span class="d">Wages, salaries, incentives, commissions, bonuses</span></div>
+    <div class="box"><b>🎁 Indirect</b><span class="d">Employer-paid insurance, vacations</span></div>
+    <div class="box"><b>⏱️ Time-based (direct)</b><span class="d">Paid daily / weekly / monthly / annually</span></div>
+    <div class="box"><b>📦 Performance-based (direct)</b><span class="d">Piecework: paid per unit produced</span></div>
+  </div>
+  <div class="hook">Pay plan factors → <span class="d">legal (labour laws) · union · company policy · equity</span></div>
+</section>
+
+<!-- 5 RECRUITMENT -->
+<section class="card" id="recruit" style="--c:#9333ea">
+  <h2><span class="num">5</span>Recruitment</h2>
+  <div class="def">Recruitment = process of searching for prospective employees & stimulating them to apply for jobs in the organisation.
+    <small>Comes before selection. Objective: create a pool of suitable candidates.</small>
+  </div>
+  <div class="mn">🧠 Activities: <u>I</u> <u>A</u>te <u>C</u>old <u>I</u>ce-cream → Identify sources · Assess validity · Choose best source · Invite applications</div>
+  <div class="chart">
+    <div class="top">Sources of Recruitment</div><div class="line"></div>
+    <div class="kids"><span>🏠 Internal (2)</span><span class="hi">🌍 External (10)</span></div>
+  </div>
+
+  <h3>🏠 Internal Sources</h3>
+  <div class="grid2">
+    <div class="box"><b>↔️ Transfer</b><span class="d">Horizontal shift (job / dept / shift); no substantive change in responsibility & status; salary not necessarily changed</span></div>
+    <div class="box"><b>⬆️ Promotion</b><span class="d">Vertical shift to a higher position: more responsibility, facilities, status & pay</span></div>
+  </div>
+  <div class="hook">Transfer also → <span class="d">fills shortages from overstaffed depts · avoids termination · resolves grievances · trains employees</span></div>
+  <div class="mn">✅ <u>M</u>y <u>S</u>ister <u>T</u>reats <u>S</u>trangers <u>C</u>heaply (5)</div>
+  <ul class="k">
+    <li><b>Motivation</b> <span class="d">— chain of promotions → commitment, loyalty, peace</span></li>
+    <li><b>Simplifies selection</b> <span class="d">— candidates already known → accurate & reliable evaluation</span></li>
+    <li><b>Training tool</b> <span class="d">— transfers prepare for higher jobs; no induction training needed</span></li>
+    <li><b>Shifts surplus staff</b> <span class="d">— from overstaffed depts to short-staffed ones</span></li>
+    <li><b>Cheaper</b> <span class="d">— than external sources</span></li>
+  </ul>
+  <div class="mn">❌ <u>I</u> <u>L</u>et <u>N</u>obody <u>C</u>heat <u>F</u>requently (5)</div>
+  <ul class="k">
+    <li><b>Inbreeding</b> <span class="d">— no fresh talent ("new blood")</span></li>
+    <li><b>Lethargy</b> <span class="d">— if time-bound promotions are assured</span></li>
+    <li><b>New enterprise can't use it</b> <span class="d">— and no firm can fill ALL vacancies internally</span></li>
+    <li><b>Competition hampered</b> <span class="d">— among employees</span></li>
+    <li><b>Frequent transfers</b> <span class="d">— reduce productivity</span></li>
+  </ul>
+
+  <h3>🌍 External Sources (10)</h3>
+  <div class="mn">🧠 <u>D</u>o <u>C</u>ats <u>A</u>lways <u>E</u>at <u>P</u>izza? <u>C</u>an <u>R</u>abbits <u>L</u>ike <u>T</u>asty <u>W</u>affles?</div>
+  <ul class="k">
+    <li><b>Direct recruitment</b> <span class="d">— notice on board, on-the-spot selection; casual/"badli" workers on daily wages; cheapest; for rush of work or absent workers</span></li>
+    <li><b>Casual callers</b> <span class="d">— database of unsolicited applicants; reduces cost</span></li>
+    <li><b>Advertisement</b> <span class="d">— newspapers/journals; wider choice, more info, senior posts ✗ flood of unsuitable applicants</span></li>
+    <li><b>Employment exchange</b> <span class="d">— govt-run; unskilled & skilled operative jobs; sometimes legally compulsory ✗ outdated records</span></li>
+    <li><b>Placement agencies & mgmt consultants</b> <span class="d">— charge a fee; extensive screening; lure top executives; consultants focus on middle & top level</span></li>
+    <li><b>Campus recruitment</b> <span class="d">— colleges & institutes; technical, professional, managerial jobs</span></li>
+    <li><b>Recommendations of employees</b> <span class="d">— background known; preliminary screening already done (Infosys, Lenovo referrals)</span></li>
+    <li><b>Labour contractors</b> <span class="d">— unskilled workers at short notice ✗ if the contractor leaves, his workers leave too</span></li>
+    <li><b>Television</b> <span class="d">— job details + organisation profile telecast</span></li>
+    <li><b>Web publishing</b> <span class="d">— job websites used by both job seekers & employers</span></li>
+  </ul>
+  <div class="mn">✅ <u>Q</u>uick <u>W</u>ins <u>F</u>eel <u>C</u>ool (4)</div>
+  <ul class="k">
+    <li><b>Qualified personnel</b> <span class="d">— attracts qualified & trained people</span></li>
+    <li><b>Wider choice</b> <span class="d">— large number of applicants</span></li>
+    <li><b>Fresh talent</b> <span class="d">— brings new blood</span></li>
+    <li><b>Competitive spirit</b> <span class="d">— existing staff work harder to compete with outsiders</span></li>
+  </ul>
+  <div class="mn">❌ <u>D</u>on't <u>L</u>ose <u>C</u>ash (3)</div>
+  <ul class="k">
+    <li><b>Dissatisfaction</b> <span class="d">— existing staff feel promotion chances are reduced</span></li>
+    <li><b>Lengthy</b> <span class="d">— notify vacancies, wait for applications</span></li>
+    <li><b>Costly</b> <span class="d">— advertising & processing applications</span></li>
+  </ul>
+  <div class="hook">📌 Paper plate firm, urgent festival order of 50,000 extra → <span class="d">Direct recruitment (casual workers)</span></div>
+  <div class="hook">📌 Kaul Consultants' naukaripao.com for senior jobs → <span class="d">Web publishing</span></div>
+  <div class="hook">📌 Xylo Ltd setting up a new plant → <span class="d">External sources (a new firm can't use internal)</span></div>
+  <div class="hook">📌 Why is internal more economical? → <span class="d">no advertising cost · candidates already known · no induction training</span></div>
+
+  <h3>⚖️ Internal vs External</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Internal</th><th>External</th></tr>
+    <tr><td>Cost</td><td><span class="d">Cheaper</span></td><td><span class="d">Costly (ads, processing)</span></td></tr>
+    <tr><td>Time</td><td><span class="d">Quicker</span></td><td><span class="d">Lengthy</span></td></tr>
+    <tr><td>Fresh talent</td><td><span class="d">Limited (inbreeding)</span></td><td><span class="d">New blood</span></td></tr>
+    <tr><td>Choice</td><td><span class="d">Limited</span></td><td><span class="d">Wide</span></td></tr>
+    <tr><td>Existing staff</td><td><span class="d">Motivated (promotion chances)</span></td><td><span class="d">May feel dissatisfied</span></td></tr>
+    <tr><td>New enterprise</td><td><span class="d">Can't use</span></td><td><span class="d">Must use</span></td></tr>
+  </table></div>
+
+  <h3>⚖️ Recruitment vs Selection</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Recruitment</th><th>Selection</th></tr>
+    <tr><td>Meaning</td><td><span class="d">Searching & stimulating candidates to apply</span></td><td><span class="d">Choosing the best from the pool</span></td></tr>
+    <tr><td>Aim</td><td><span class="d">Create a pool of applicants</span></td><td><span class="d">Find the right person for the job</span></td></tr>
+    <tr><td>Order</td><td><span class="d">Comes first</span></td><td><span class="d">Follows recruitment</span></td></tr>
+    <tr><td>Approach</td><td><span class="d">Attracts many suitable applicants</span></td><td><span class="d">Eliminates unsuitable ones at every stage</span></td></tr>
+    <tr><td>Tools</td><td><span class="d">Sources & advertising</span></td><td><span class="d">Tests, interviews, checks</span></td></tr>
+  </table></div>
+</section>
+
+<!-- 6 SELECTION -->
+<section class="card" id="select" style="--c:#e11d48">
+  <h2><span class="num">6</span>Selection</h2>
+  <div class="def">Selection = process of identifying & choosing the best person out of a number of prospective candidates for a job.
+    <small>Many are eliminated at every stage. Its effectiveness is finally tested by the chosen person's on-the-job performance.</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>🏆 Purpose 1</b><span class="d">Org gets the best among those available</span></div>
+    <div class="box"><b>🌟 Purpose 2</b><span class="d">Raises self-esteem & prestige of those selected; shows the org's seriousness</span></div>
+  </div>
+
+  <h3>Process (8)</h3>
+  <div class="mn">🧠 <u>P</u>uppies <u>S</u>it, <u>E</u>at, <u>R</u>un, <u>S</u>leep, <u>M</u>unch, <u>J</u>ump, <u>C</u>uddle</div>
+  <div class="flow">
+    <div class="step"><b>1. P</b>reliminary screening<br><span class="d">Reject unfit applicants using application forms + preliminary interview</span></div>
+    <div class="step"><b>2. S</b>election tests<br><span class="d">Measure aptitude, intelligence, personality (see below)</span></div>
+    <div class="step"><b>3. E</b>mployment interview<br><span class="d">Formal, in-depth conversation to judge suitability (two-way today)</span></div>
+    <div class="step"><b>4. R</b>eference & background checks<br><span class="d">Verify info via previous employers, teachers, professors</span></div>
+    <div class="step"><b>5. S</b>election decision<br><span class="d">Concerned manager's view counts most (responsible for performance)</span></div>
+    <div class="step"><b>6. M</b>edical examination<br><span class="d">After selection decision, BEFORE job offer</span></div>
+    <div class="step"><b>7. J</b>ob offer<br><span class="d">Letter of appointment with reporting date; reasonable time given</span></div>
+    <div class="step"><b>8. C</b>ontract of employment<br><span class="d">Attestation form + contract (title, duties, pay, hours, leave, grievance, termination)</span></div>
+  </div>
+  <div class="hook">❌ Fail any of steps 1 to 5 → <span class="d">application rejected</span></div>
+
+  <h3>Selection Tests (5)</h3>
+  <div class="mn">🧠 <u>I</u> <u>A</u>te <u>P</u>izza <u>T</u>hen <u>I</u>ce-cream</div>
+  <ul class="k">
+    <li><b>Intelligence</b> <span class="d">— IQ level; learning ability, decision-making & judgment</span></li>
+    <li><b>Aptitude</b> <span class="d">— potential to learn new skills; predicts future success</span></li>
+    <li><b>Personality</b> <span class="d">— emotions, reactions, maturity, values; difficult to design</span></li>
+    <li><b>Trade</b> <span class="d">— existing skills; knowledge & proficiency in the profession</span></li>
+    <li><b>Interest</b> <span class="d">— pattern of interests in a job</span></li>
+  </ul>
+  <div class="grid2">
+    <div class="box"><b>Aptitude test</b><span class="d">POTENTIAL to acquire skills (future)</span></div>
+    <div class="box"><b>Trade test</b><span class="d">ACTUAL skills possessed (present)</span></div>
+  </div>
+  <div class="hook">🔑 Aptitude = "<b>can learn</b>" · Trade = "<b>can do</b>"</div>
+
+  <h3>4 Possible Outcomes</h3>
+  <div class="grid2">
+    <div class="box"><b>✅ Correct accept</b><span class="d">Predicted to succeed → succeeds</span></div>
+    <div class="box"><b>✅ Correct reject</b><span class="d">Predicted to fail → would have failed</span></div>
+    <div class="box"><b>❌ Reject error</b><span class="d">Rejected someone who would have succeeded</span></div>
+    <div class="box"><b>❌ Accept error</b><span class="d">Accepted someone who performs poorly</span></div>
+  </div>
+  <div class="hook">📌 Security firm needs reliable staff who won't leak secrets → <span class="d">Reference & background checks + personality test</span></div>
+</section>
+
+<!-- 7 TRAINING & DEVELOPMENT -->
+<section class="card" id="td" style="--c:#2563eb">
+  <h2><span class="num">7</span>Training & Development</h2>
+  <div class="def">T&amp;D = attempt to improve current or future performance by increasing an employee's ability through learning (changing attitude or increasing skills & knowledge).
+    <small>"If you wish to plan for a lifetime, develop people."</small>
+  </div>
+  <div class="hook">📈 Why needed now → <span class="d">jobs more complex + rapid technological change</span></div>
+
+  <h3>Benefits to Organisation (5)</h3>
+  <div class="mn">🧠 <u>S</u>ome <u>P</u>ilots <u>F</u>ly <u>M</u>ore <u>R</u>outes</div>
+  <ul class="k">
+    <li><b>Systematic learning</b> <span class="d">— better than trial & error (less waste of effort & money)</span></li>
+    <li><b>Productivity ↑</b> <span class="d">— quantity & quality → higher profits</span></li>
+    <li><b>Future managers</b> <span class="d">— ready to take over in an emergency</span></li>
+    <li><b>Morale ↑</b> <span class="d">— absenteeism & employee turnover ↓</span></li>
+    <li><b>Response to change</b> <span class="d">— technological & economic</span></li>
+  </ul>
+
+  <h3>Benefits to Employee (4)</h3>
+  <div class="mn">🧠 <u>C</u>ats <u>E</u>at <u>A</u>ll <u>S</u>ardines</div>
+  <ul class="k">
+    <li><b>Career</b> <span class="d">— better skills & knowledge → better career</span></li>
+    <li><b>Earnings</b> <span class="d">— higher performance → earns more</span></li>
+    <li><b>Accidents ↓</b> <span class="d">— handles machines efficiently</span></li>
+    <li><b>Satisfaction & morale ↑</b></li>
+  </ul>
+
+  <h3>Training · Education · Development</h3>
+  <div class="grid2">
+    <div class="box"><b>🛠️ Training</b><span class="d">Increases skills & abilities for a SPECIFIC job; tied to org goals; short-term</span></div>
+    <div class="box"><b>📚 Education</b><span class="d">Increases knowledge & understanding; builds a logical, rational mind; broader than training</span></div>
+    <div class="box full"><b>🌱 Development</b><span class="d">All-round growth of personality & potential; ongoing; includes training → "better men & women"</span></div>
+  </div>
+  <div class="hook">🔑 Training = <b>job</b> · Education = <b>mind</b> · Development = <b>whole person</b></div>
+
+  <h3>⚖️ Training vs Development</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Training</th><th>Development</th></tr>
+    <tr><td>Meaning</td><td><span class="d">Increasing knowledge & skills</span></td><td><span class="d">Learning & growth</span></td></tr>
+    <tr><td>Purpose</td><td><span class="d">Do the job better</span></td><td><span class="d">Overall growth of the employee</span></td></tr>
+    <tr><td>Orientation</td><td><span class="d">Job-oriented</span></td><td><span class="d">Career-oriented</span></td></tr>
+    <tr><td>Duration</td><td><span class="d">Short-term</span></td><td><span class="d">Ongoing</span></td></tr>
+    <tr><td>Scope</td><td><span class="d">Part of development</span></td><td><span class="d">Includes training</span></td></tr>
+  </table></div>
+  <div class="hook">📌 Workers can't run new machines, keep calling supervisor · quality below standard → <span class="d">Training</span></div>
+  <div class="hook">📌 Insurance co: candidates have soft skills, lack hard skills → <span class="d">Train them after hiring</span></div>
+</section>
+
+<!-- 8 TRAINING METHODS -->
+<section class="card" id="methods" style="--c:#16a34a">
+  <h2><span class="num">8</span>Training Methods</h2>
+  <div class="grid2">
+    <div class="box"><b>🏭 On-the-job</b><span class="d">At the workplace while working = learning WHILE doing</span></div>
+    <div class="box"><b>🏫 Off-the-job</b><span class="d">Away from the workplace = learning BEFORE doing</span></div>
+  </div>
+
+  <h3>On-the-job (4)</h3>
+  <div class="mn">🧠 <u>A</u> <u>C</u>ool <u>I</u>ndian <u>J</u>ob</div>
+  <ul class="k">
+    <li><b>Apprenticeship</b> <span class="d">— under a master worker; higher skills (plumbers, electricians); uniform period for fast & slow learners</span></li>
+    <li><b>Coaching</b> <span class="d">— superior sets mutual goals, reviews progress; trainee groomed to replace the senior manager</span></li>
+    <li><b>Internship</b> <span class="d">— joint programme of educational institutes + firms; study + practical work</span></li>
+    <li><b>Job rotation</b> <span class="d">— shifted across depts/jobs; broad understanding; tests aptitude; eases promotions & transfers</span></li>
+  </ul>
+
+  <h3>Off-the-job (6)</h3>
+  <div class="mn">🧠 <u>C</u>ool <u>F</u>riends <u>C</u>an <u>C</u>ook <u>V</u>ery <u>P</u>eacefully</div>
+  <ul class="k">
+    <li><b>Classroom lectures / conferences</b> <span class="d">— convey specific info (rules, procedures, methods); audio-visuals help</span></li>
+    <li><b>Films</b> <span class="d">— demonstrate skills that other methods can't show easily</span></li>
+    <li><b>Case study</b> <span class="d">— real problems → identify, analyse causes, find alternatives, choose & implement</span></li>
+    <li><b>Computer modelling</b> <span class="d">— computer simulates the job; learn without the risk or cost of real mistakes</span></li>
+    <li><b>Vestibule training</b> <span class="d">— same equipment, set up away from the work floor; for sophisticated machinery</span></li>
+    <li><b>Programmed instruction</b> <span class="d">— info broken into units, simple → complex; trainee answers questions / fills blanks</span></li>
+  </ul>
+  <div class="hook">🔑 Vestibule = <b>real equipment</b> in a mock setup · Computer modelling = <b>computer simulation</b></div>
+  <div class="hook">📌 Workers idle on hi-tech machines, engineer's frequent visits raise costs → <span class="d">Vestibule training</span></div>
+</section>
+
+</main>
+
+<button id="t">🧠 Test Me</button>
+
+<script>
+  const btn = document.getElementById('t');
+  btn.onclick = () => {
+    document.body.classList.toggle('recall');
+    document.querySelectorAll('.d.show').forEach(e => e.classList.remove('show'));
+    btn.textContent = document.body.classList.contains('recall') ? '👁 Show All' : '🧠 Test Me';
+  };
+  document.addEventListener('click', e => {
+    const d = e.target.closest('.d');
+    if (d && document.body.classList.contains('recall')) d.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

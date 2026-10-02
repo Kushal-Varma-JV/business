@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 7 · Directing</title>
+<style>
+  :root{--ink:#1d2433;--mute:#5b6577;--bg:#f4f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px}
+  header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:18px 16px 14px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:4px 0 0;opacity:.9;font-size:13px}
+  .chaps{display:flex;gap:6px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
+  .chaps::-webkit-scrollbar{display:none}
+  .chaps a{flex:none;text-decoration:none;color:#fff;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+  .chaps a.on{background:#fff;color:#4f46e5}
+  nav{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:6px;overflow-x:auto;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,.07);scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none;text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600}
+  main{max-width:720px;margin:auto;padding:4px 12px 90px}
+  .card{background:#fff;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:5px solid var(--c);scroll-margin-top:56px}
+  h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .num{background:var(--c);color:#fff;border-radius:8px;min-width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+  h3{font-size:14px;margin:14px 0 6px;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+  .def{background:#f1f5ff;border-radius:10px;padding:10px 12px;font-weight:600}
+  .def small{display:block;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
+  .mn{background:#fff7ed;border:1px dashed #fb923c;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+  .mn u{text-decoration:none;color:#ea580c;font-weight:800;font-size:16px}
+  ul.k{list-style:none;padding:0;margin:0}
+  ul.k li{padding:8px 0;border-bottom:1px solid #eef0f4}
+  ul.k li:last-child{border-bottom:none}
+  ul.k b{color:var(--c)}
+  .d{color:var(--mute);transition:filter .2s}
+  body.recall .d{filter:blur(5px);cursor:pointer;user-select:none}
+  body.recall .d.show{filter:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+  .full{grid-column:1/-1}
+  .box{border-radius:10px;padding:10px;background:#f8fafc;font-size:14px}
+  .box b{display:block;font-size:15px;margin-bottom:2px}
+  .y{color:#16a34a;font-weight:800}
+  .n{color:#dc2626;font-weight:800}
+  .p{color:#d97706;font-weight:800}
+  .legend{font-size:13px;color:var(--mute);margin-bottom:4px}
+  .row{display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:14px}
+  .tag{flex:none;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;margin-top:1px}
+  .tag.r{background:#f3e8ff;color:#7e22ce}
+  .tag.m{background:#dcfce7;color:#15803d}
+  .verdict{font-weight:700;background:#faf5ff;border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+  .flow{display:flex;flex-wrap:wrap;gap:6px}
+  .step{flex:1 1 45%;min-width:140px;background:#f0fdfa;border-radius:10px;padding:8px 10px;font-size:14px}
+  .step b{color:#0d9488;font-size:16px}
+  .hook{background:#ecfdf5;border-radius:8px;padding:6px 10px;font-size:14px;margin-top:8px}
+  .tw{overflow-x:auto;margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td,th{padding:6px 5px;border-bottom:1px solid #eef0f4;text-align:left;vertical-align:top}
+  th{background:#f8fafc;color:var(--c)}
+  td:first-child{font-weight:700}
+  .chart{text-align:center;margin:10px 0}
+  .chart .top{display:inline-block;background:var(--c);color:#fff;border-radius:8px;padding:5px 12px;font-weight:700;font-size:13px}
+  .chart .line{width:2px;height:10px;background:#cbd5e1;margin:0 auto}
+  .chart .kids{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;border-top:2px solid #cbd5e1;padding-top:8px}
+  .chart .kids span{background:#f1f5f9;border-radius:6px;padding:4px 7px;font-size:12px;font-weight:600}
+  .chart .kids span.hi{background:var(--c);color:#fff}
+  .chart .lab{font-size:11px;color:var(--mute);margin:6px 0 2px}
+  #t{position:fixed;right:14px;bottom:16px;z-index:9;border:none;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;color:#fff;background:#111827;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  @media(max-width:420px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ch 7 · Directing</h1>
+  <p>Tap 🧠 Test Me to hide answers → tap blurred text to reveal</p>
+  <!--
+    CHAPTER FILE NAMES (keep all files in the same folder):
+    Ch 1 = index.html
+    Ch 2 = chapter2.html   Ch 3 = chapter3.html   Ch 4 = chapter4.html
+    Ch 5 = chapter5.html   Ch 6 = chapter6.html   Ch 7 = chapter7.html
+    Ch 8 = chapter8.html
+    In each file, put class="on" on that chapter's own button.
+  -->
+  <div class="chaps">
+    <a href="index.html">1 · Nature</a>
+    <a href="chapter2.html">2 · Principles</a>
+    <a href="chapter3.html">3 · Environment</a>
+    <a href="chapter4.html">4 · Planning</a>
+    <a href="chapter5.html">5 · Organising</a>
+    <a href="chapter6.html">6 · Staffing</a>
+    <a href="chapter7.html" class="on">7 · Directing</a>
+    <a href="chapter8.html">8 · Controlling</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#concept">Concept</a><a href="#principles">Principles</a><a href="#super">Supervision</a><a href="#motiv">Motivation</a><a href="#maslow">Maslow</a><a href="#incent">Incentives</a><a href="#lead">Leadership</a><a href="#comm">Communication</a><a href="#formal">Formal/Informal</a><a href="#barriers">Barriers</a>
+</nav>
+
+<main>
+
+<!-- 1 CONCEPT -->
+<section class="card" id="concept" style="--c:#4f46e5">
+  <h2><span class="num">1</span>Concept</h2>
+  <div class="def">Directing = process of <u>instructing</u>, <u>guiding</u>, <u>counselling</u>, <u>motivating</u> & <u>leading</u> people to achieve organisational objectives.
+    <small>Not just communication: it includes supervision, motivation & leadership. Done by every manager, throughout the life of the organisation.</small>
+  </div>
+  <div class="mn">🧠 <u>I</u> <u>G</u>ot <u>C</u>old <u>M</u>ango <u>L</u>assi → Instruct · Guide · Counsel · Motivate · Lead</div>
+
+  <h3>Elements (4)</h3>
+  <div class="mn">🧠 <u>S</u>ome <u>M</u>en <u>L</u>ove <u>C</u>ricket</div>
+  <div class="grid2">
+    <div class="box"><b>👀 Supervision</b><span class="d">Overseeing & guiding subordinates' work</span></div>
+    <div class="box"><b>🔥 Motivation</b><span class="d">Stimulating people to act willingly</span></div>
+    <div class="box"><b>🧭 Leadership</b><span class="d">Influencing people to strive voluntarily</span></div>
+    <div class="box"><b>💬 Communication</b><span class="d">Exchanging ideas to create understanding</span></div>
+  </div>
+
+  <h3>Features (4)</h3>
+  <div class="mn">🧠 <u>I</u> <u>E</u>at <u>C</u>ake <u>T</u>oday</div>
+  <ul class="k">
+    <li><b>Initiates action</b> <span class="d">— other functions prepare the setting; directing starts the action</span></li>
+    <li><b>Every level</b> of management <span class="d">— wherever a superior–subordinate relationship exists</span></li>
+    <li><b>Continuous</b> <span class="d">— goes on even when managers change (Infosys, Tata, BHEL)</span></li>
+    <li><b>Top to bottom</b> <span class="d">— flows down the hierarchy; direct immediate subordinate, take orders from immediate boss</span></li>
+  </ul>
+</section>
+
+<!-- 2 IMPORTANCE & PRINCIPLES -->
+<section class="card" id="principles" style="--c:#d97706">
+  <h2><span class="num">2</span>Importance & Principles</h2>
+
+  <h3>Importance (5)</h3>
+  <div class="mn">🧠 <u>I</u> <u>I</u>ntegrate <u>P</u>eople's <u>C</u>hanges <u>S</u>moothly</div>
+  <ul class="k">
+    <li><b>Initiates action</b> <span class="d">— towards desired goals (supervisor clears doubts → targets met)</span></li>
+    <li><b>Integrates efforts</b> <span class="d">— every individual effort adds to organisational performance</span></li>
+    <li><b>Potential realised</b> <span class="d">— motivation & leadership bring out full capability</span></li>
+    <li><b>Change facilitated</b> <span class="d">— reduces resistance via motivation, communication, leadership</span></li>
+    <li><b>Stability & balance</b> <span class="d">— cooperation & commitment among groups & departments</span></li>
+  </ul>
+  <div class="hook">📌 New accounting system resisted → <span class="d">explain purpose + train + reward → staff accept the change</span></div>
+
+  <h3>Principles (8)</h3>
+  <div class="mn">🧠 <u>M</u>y <u>H</u>appy <u>U</u>ncle <u>A</u>lways <u>M</u>akes <u>U</u>gly <u>L</u>ittle <u>F</u>aces</div>
+  <ul class="k">
+    <li><b>Maximum individual contribution</b> <span class="d">— bring out untapped energies (monetary + non-monetary rewards)</span></li>
+    <li><b>Harmony of objectives</b> <span class="d">— convince staff that their rewards & work efficiency go together</span></li>
+    <li><b>Unity of command</b> <span class="d">— orders from ONE superior only; otherwise confusion & conflict</span></li>
+    <li><b>Appropriateness of direction technique</b> <span class="d">— suit the person (money motivates some, promotion others)</span></li>
+    <li><b>Managerial communication</b> <span class="d">— clear instructions + feedback to check understanding</span></li>
+    <li><b>Use of informal organisation</b> <span class="d">— spot informal groups & use them</span></li>
+    <li><b>Leadership</b> <span class="d">— influence positively without causing dissatisfaction</span></li>
+    <li><b>Follow through</b> <span class="d">— giving an order isn't enough; review & modify if needed</span></li>
+  </ul>
+</section>
+
+<!-- 3 SUPERVISION -->
+<section class="card" id="super" style="--c:#0891b2">
+  <h2><span class="num">3</span>Supervision</h2>
+  <div class="grid2">
+    <div class="box"><b>① As an element of directing</b><span class="d">Done by EVERY manager: overseeing subordinates & giving instructions → optimum use of resources + targets met</span></div>
+    <div class="box"><b>② As a position</b><span class="d">Supervisor at operative level, just above workers; the only manager in direct touch with them</span></div>
+  </div>
+
+  <h3>Importance (7)</h3>
+  <div class="mn">🧠 <u>D</u>aily <u>L</u>ife <u>G</u>ets <u>P</u>eople <u>T</u>o <u>L</u>ove <u>F</u>eedback</div>
+  <ul class="k">
+    <li><b>Day-to-day contact</b> <span class="d">— friendly relations; guide, friend & philosopher to workers</span></li>
+    <li><b>Link</b> between workers & management <span class="d">— passes ideas down, problems up → fewer conflicts</span></li>
+    <li><b>Group unity</b> <span class="d">— sorts out internal differences, keeps harmony</span></li>
+    <li><b>Performance</b> as per targets <span class="d">— takes responsibility for task achievement</span></li>
+    <li><b>Training</b> (on-the-job) <span class="d">— builds an efficient team</span></li>
+    <li><b>Leadership</b> <span class="d">— builds high morale among workers</span></li>
+    <li><b>Feedback</b> <span class="d">— analyses work, suggests ways to improve skills</span></li>
+  </ul>
+</section>
+
+<!-- 4 MOTIVATION -->
+<section class="card" id="motiv" style="--c:#0d9488">
+  <h2><span class="num">4</span>Motivation</h2>
+  <div class="def">Motivation = process of stimulating people to action to accomplish desired goals.
+    <small>William G. Scott. Literally: incitement or inducement to act or move.</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>💭 Motive</b><span class="d">Inner state that energises & directs behaviour; arises from needs (hunger, security, recognition)</span></div>
+    <div class="box"><b>⚡ Motivation</b><span class="d">The process of stimulating action; depends on satisfying needs</span></div>
+    <div class="box full"><b>🎁 Motivator</b><span class="d">The technique used: pay, bonus, promotion, recognition, praise, responsibility</span></div>
+  </div>
+  <div class="hook">🔑 Motive = <b>inner need</b> · Motivation = <b>process</b> · Motivator = <b>tool</b></div>
+
+  <h3>Features (4)</h3>
+  <div class="mn">🧠 <u>I</u> <u>G</u>ot <u>P</u>retty <u>C</u>old</div>
+  <ul class="k">
+    <li><b>Internal feeling</b> <span class="d">— urges, drives, desires (wanting a bike, a house)</span></li>
+    <li><b>Goal-directed behaviour</b> <span class="d">— e.g. promotion offered → employee improves performance</span></li>
+    <li><b>Positive or negative</b> <span class="d">— Positive: pay rise, promotion, recognition · Negative: punishment, stopping increments, threats</span></li>
+    <li><b>Complex</b> <span class="d">— people differ, so the same motivator won't work equally on everyone</span></li>
+  </ul>
+
+  <h3>Process (6)</h3>
+  <div class="mn">🧠 <u>U</u>gly <u>T</u>oads <u>D</u>ance <u>S</u>lowly, <u>S</u>ing <u>R</u>arely</div>
+  <div class="flow">
+    <div class="step"><b>1.</b> Unsatisfied need</div>
+    <div class="step"><b>2.</b> Tension</div>
+    <div class="step"><b>3.</b> Drives</div>
+    <div class="step"><b>4.</b> Search behaviour</div>
+    <div class="step"><b>5.</b> Satisfied need</div>
+    <div class="step"><b>6.</b> Reduction of tension</div>
+  </div>
+  <div class="hook">📌 Ramu skipped breakfast → <span class="d">restless (tension) → walks 2 km looking for a hotel (search) → ₹10 meal (satisfied) → energy back (tension reduced)</span></div>
+
+  <h3>Importance (5)</h3>
+  <div class="mn">🧠 <u>P</u>lease <u>A</u>llow <u>T</u>he <u>A</u>bsent <u>C</u>hild</div>
+  <ul class="k">
+    <li><b>Performance ↑</b> <span class="d">— satisfied employees give maximum effort</span></li>
+    <li><b>Attitude</b> negative → positive <span class="d">— through rewards, praise & encouragement</span></li>
+    <li><b>Turnover ↓</b> <span class="d">— saves recruitment & training costs; retains talent</span></li>
+    <li><b>Absenteeism ↓</b> <span class="d">— work becomes a source of pleasure</span></li>
+    <li><b>Change</b> accepted smoothly <span class="d">— if staff see extra rewards in it</span></li>
+  </ul>
+  <div class="hook">📌 Workers claim inability for new work, unwilling; sudden rise in demand → <span class="d">Motivation</span></div>
+</section>
+
+<!-- 5 MASLOW -->
+<section class="card" id="maslow" style="--c:#9333ea">
+  <h2><span class="num">5</span>Maslow's Need Hierarchy</h2>
+  <div class="def">Abraham Maslow (1943): every person has 5 needs in a hierarchy; once a lower need is satisfied, the next higher one motivates.</div>
+  <div class="mn">🧠 Bottom → Top: <u>P</u>lease <u>S</u>top <u>A</u>sking <u>E</u>very <u>S</u>tudent</div>
+
+  <div class="box" style="width:52%;margin:6px auto;text-align:center;background:#7e22ce;color:#fff"><b>5. Self-actualisation</b><span class="d" style="color:#fff">Becoming what one is capable of: growth, self-fulfilment, achieving goals</span></div>
+  <div class="box" style="width:64%;margin:6px auto;text-align:center;background:#9333ea;color:#fff"><b>4. Esteem</b><span class="d" style="color:#fff">Self-respect, autonomy, status, recognition, attention</span></div>
+  <div class="box" style="width:76%;margin:6px auto;text-align:center;background:#a855f7;color:#fff"><b>3. Affiliation / Belonging</b><span class="d" style="color:#fff">Affection, belongingness, acceptance, friendship</span></div>
+  <div class="box" style="width:88%;margin:6px auto;text-align:center;background:#c084fc;color:#fff"><b>2. Safety / Security</b><span class="d" style="color:#fff">Protection from physical & emotional harm</span></div>
+  <div class="box" style="width:100%;margin:6px auto;text-align:center;background:#d8b4fe;color:#3b0764"><b>1. Basic Physiological</b><span class="d" style="color:#3b0764">Hunger, thirst, shelter, sleep</span></div>
+
+  <h3>Examples</h3>
+  <div class="tw"><table>
+    <tr><th>Need</th><th>👤 Individual</th><th>🏢 Organisation</th></tr>
+    <tr><td>Self-actualisation</td><td><span class="d">Self-fulfilment</span></td><td><span class="d">Achievement of goals</span></td></tr>
+    <tr><td>Esteem</td><td><span class="d">Status</span></td><td><span class="d">Job title</span></td></tr>
+    <tr><td>Affiliation</td><td><span class="d">Friendship</span></td><td><span class="d">Cordial relations with colleagues</span></td></tr>
+    <tr><td>Safety</td><td><span class="d">Stability of income</span></td><td><span class="d">Pension plan, job security</span></td></tr>
+    <tr><td>Physiological</td><td><span class="d">Hunger</span></td><td><span class="d">Basic salary</span></td></tr>
+  </table></div>
+
+  <h3>Assumptions (4)</h3>
+  <div class="mn">🧠 <u>B</u>ig <u>H</u>ills <u>S</u>low <u>S</u>herpas</div>
+  <ul class="k">
+    <li><b>Behaviour</b> based on needs <span class="d">— satisfying needs influences behaviour</span></li>
+    <li><b>Hierarchical order</b> <span class="d">— from basic needs up to higher needs</span></li>
+    <li><b>Satisfied need</b> stops motivating <span class="d">— only the next higher need motivates</span></li>
+    <li><b>Step up</b> only when lower need is satisfied</li>
+  </ul>
+  <div class="hook">⚖️ Criticism → <span class="d">classification & order of needs questioned</span> · Still relevant → <span class="d">manager must identify an employee's need level to motivate them</span></div>
+</section>
+
+<!-- 6 INCENTIVES -->
+<section class="card" id="incent" style="--c:#e11d48">
+  <h2><span class="num">6</span>Incentives</h2>
+  <div class="def">Incentive = any measure used to motivate people to improve performance.</div>
+
+  <h3>💰 Financial (7)</h3>
+  <div class="def">In direct money form or measurable in money; individual or group basis.</div>
+  <div class="mn">🧠 <u>P</u>retty <u>P</u>arrots <u>B</u>ring <u>P</u>eanuts, <u>C</u>ashews, <u>R</u>aisins, <u>P</u>istachios</div>
+  <ul class="k">
+    <li><b>Pay & allowances</b> <span class="d">— basic pay + DA + allowances; yearly increments</span></li>
+    <li><b>Productivity-linked wage incentives</b> <span class="d">— wages tied to productivity (individual/group)</span></li>
+    <li><b>Bonus</b> <span class="d">— over and above wages/salary</span></li>
+    <li><b>Profit sharing</b> <span class="d">— share in the organisation's profits</span></li>
+    <li><b>Co-partnership / Stock option</b> <span class="d">— shares below market price → sense of ownership (Infosys)</span></li>
+    <li><b>Retirement benefits</b> <span class="d">— provident fund, pension, gratuity</span></li>
+    <li><b>Perquisites</b> <span class="d">— car allowance, housing, medical aid, children's education</span></li>
+  </ul>
+
+  <h3>🌟 Non-Financial (8)</h3>
+  <div class="def">Satisfy psychological, social & emotional needs. Money may be involved, but it isn't the main point.</div>
+  <div class="mn">🧠 <u>S</u>ome <u>O</u>ld <u>C</u>ats <u>J</u>ump <u>E</u>very <u>J</u>olly <u>E</u>vening <u>E</u>arly</div>
+  <ul class="k">
+    <li><b>Status</b> <span class="d">— ranking of positions; satisfies esteem & social needs</span></li>
+    <li><b>Organisational climate</b> <span class="d">— autonomy, reward orientation, consideration, risk-taking</span></li>
+    <li><b>Career advancement</b> <span class="d">— skill development + sound promotion policy ("works as a tonic")</span></li>
+    <li><b>Job enrichment</b> <span class="d">— more variety, skill, autonomy & responsibility → job itself motivates</span></li>
+    <li><b>Employee recognition</b> <span class="d">— congratulating, notice board, awards, mementos, rewarding suggestions</span></li>
+    <li><b>Job security</b> <span class="d">— stable income & work ✗ can make people complacent</span></li>
+    <li><b>Employee participation</b> <span class="d">— joint management, work & canteen committees</span></li>
+    <li><b>Employee empowerment</b> <span class="d">— more autonomy & powers → job feels important</span></li>
+  </ul>
+  <div class="hook">🔑 Promotion = <b>non-financial</b> <span class="d">(status, authority & challenge outweigh the extra money)</span></div>
+
+  <h3>⚖️ Financial vs Non-Financial</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Financial</th><th>Non-Financial</th></tr>
+    <tr><td>Form</td><td><span class="d">Money or measurable in money</span></td><td><span class="d">Psychological & emotional satisfaction</span></td></tr>
+    <tr><td>Maslow needs</td><td><span class="d">Lower (physiological, safety)</span></td><td><span class="d">Higher (belonging, esteem, self-actualisation)</span></td></tr>
+    <tr><td>Examples</td><td><span class="d">Bonus, profit sharing, perquisites</span></td><td><span class="d">Status, recognition, job enrichment</span></td></tr>
+  </table></div>
+  <div class="hook">📌 GyanPradan hostel: medical aid + free education for staff's children → <span class="d">Perquisites · Financial · others: bonus, profit sharing</span></div>
+  <div class="hook">📌 Rashmi, dejected after being passed over for promotion → <span class="d">non-financial: recognition, career advancement, job enrichment</span></div>
+</section>
+
+<!-- 7 LEADERSHIP -->
+<section class="card" id="lead" style="--c:#2563eb">
+  <h2><span class="num">7</span>Leadership</h2>
+  <div class="def">Leadership = process of influencing people's behaviour so they strive <u>voluntarily</u> towards organisational goals.
+    <small>Koontz & Weihrich: "Art or process of influencing people so that they will strive willingly and enthusiastically towards the achievement of group goals."</small>
+  </div>
+
+  <h3>Features (5)</h3>
+  <div class="mn">🧠 <u>I</u> <u>C</u>an't <u>I</u>magine <u>C</u>old <u>C</u>offee</div>
+  <ul class="k">
+    <li><b>Influence</b> <span class="d">— ability to influence others</span></li>
+    <li><b>Change</b> in behaviour <span class="d">— tries to change how others behave</span></li>
+    <li><b>Interpersonal relations</b> <span class="d">— between leader & followers</span></li>
+    <li><b>Common goals</b> <span class="d">— exercised for organisation's goals</span></li>
+    <li><b>Continuous</b> process</li>
+  </ul>
+  <div class="hook">🤝 Leader–follower → <span class="d">followers make a leader by accepting them; their skills & commitment matter too</span></div>
+  <div class="hook">🔑 Stephen Covey: <span class="d">managers are important, but leaders are vital for lasting success</span></div>
+
+  <h3>Importance (5)</h3>
+  <div class="mn">🧠 <u>I</u>n <u>P</u>aris <u>C</u>hildren <u>C</u>an <u>T</u>ravel</div>
+  <ul class="k">
+    <li><b>Influences behaviour</b> <span class="d">— people contribute energies positively</span></li>
+    <li><b>Personal relations</b> <span class="d">— confidence, support → congenial work environment</span></li>
+    <li><b>Change</b> introduced <span class="d">— persuades, clarifies, inspires → minimum discontent</span></li>
+    <li><b>Conflict</b> handled <span class="d">— lets followers vent, then persuades</span></li>
+    <li><b>Training successors</b> <span class="d">— smooth succession</span></li>
+  </ul>
+  <div class="box"><b>⭐ Qualities (from book summary)</b><span class="d">Courage, will power, judgement, knowledge, integrity, physical energy, faith, fairness, decisiveness, social skills. No one has them all; they can be built through training.</span></div>
+
+  <h3>Styles (based on use of authority)</h3>
+  <div class="mn">🧠 <u>A</u>ll <u>D</u>ogs <u>L</u>augh → Autocratic · Democratic · Laissez-faire</div>
+  <div class="grid2">
+    <div class="box"><b>👑 Autocratic</b><span class="d">Gives orders, expects obedience; one-way; dogmatic; reward/punishment</span></div>
+    <div class="box"><b>🗳️ Democratic</b><span class="d">Decides in consultation; encourages participation; uses group forces</span></div>
+    <div class="box full"><b>🕊️ Laissez-faire (Free-rein)</b><span class="d">Uses power only if absolutely essential; group sets own goals & solves issues; leader only supports & informs</span></div>
+  </div>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Autocratic</th><th>Democratic</th><th>Laissez-faire</th></tr>
+    <tr><td>Also called</td><td><span class="d">Authoritarian</span></td><td><span class="d">Participative</span></td><td><span class="d">Free-rein</span></td></tr>
+    <tr><td>Decisions</td><td><span class="d">Leader alone</span></td><td><span class="d">With subordinates</span></td><td><span class="d">Group itself</span></td></tr>
+    <tr><td>Communication</td><td><span class="d">One-way</span></td><td><span class="d">Two-way</span></td><td><span class="d">Free, among group</span></td></tr>
+    <tr><td>Power</td><td><span class="d">Centralised</span></td><td><span class="d">Shared</span></td><td><span class="d">Minimal</span></td></tr>
+    <tr><td>Best for</td><td><span class="d">Quick decisions, factory output on time</span></td><td><span class="d">People who perform best setting own goals</span></td><td><span class="d">Independent, responsible teams</span></td></tr>
+  </table></div>
+  <div class="hook">🔑 Styles can be <b>combined</b> <span class="d">(a democratic leader decides alone in an emergency)</span></div>
+  <div class="hook">📌 Inflexible manager, hates contradiction; staff stressed & fearful → <span class="d">Autocratic style (problem)</span></div>
+  <div class="hook">📌 "Doesn't use power unless absolutely essential" → <span class="d">Laissez-faire</span></div>
+</section>
+
+<!-- 8 COMMUNICATION -->
+<section class="card" id="comm" style="--c:#16a34a">
+  <h2><span class="num">8</span>Communication</h2>
+  <div class="def">Communication = process of exchanging ideas, views, facts & feelings between people to create <u>common understanding</u>.
+    <small>From Latin "communis" = common. Koontz & Weihrich: "Transfer of information from the sender to the receiver with the information being understood by the receiver."</small>
+  </div>
+
+  <h3>Process Elements (8)</h3>
+  <div class="mn">🧠 <u>S</u>ome <u>M</u>onkeys <u>E</u>at <u>M</u>angoes <u>D</u>uring <u>R</u>ainy <u>F</u>ridays, <u>N</u>oisily</div>
+  <div class="flow">
+    <div class="step"><b>1.</b> Sender<br><span class="d">Source; conveys the idea</span></div>
+    <div class="step"><b>2.</b> Message<br><span class="d">Content: ideas, feelings, orders</span></div>
+    <div class="step"><b>3.</b> Encoding<br><span class="d">Converting message into words, pictures, gestures</span></div>
+    <div class="step"><b>4.</b> Media<br><span class="d">Path: written, face to face, phone, internet</span></div>
+    <div class="step"><b>5.</b> Decoding<br><span class="d">Converting symbols back into meaning</span></div>
+    <div class="step"><b>6.</b> Receiver<br><span class="d">Person who gets the message</span></div>
+    <div class="step"><b>7.</b> Feedback<br><span class="d">Receiver's response showing it was understood</span></div>
+    <div class="step"><b>8.</b> Noise<br><span class="d">Any obstruction, at any stage</span></div>
+  </div>
+  <div class="hook">🔊 Noise examples → <span class="d">ambiguous symbols · poor phone line · inattentive receiver · faulty decoding · prejudices · distorting gestures</span></div>
+
+  <h3>Importance (7)</h3>
+  <div class="mn">🧠 <u>C</u>ool <u>S</u>tudents <u>D</u>on't <u>M</u>ake <u>C</u>hildish <u>L</u>ittle <u>M</u>istakes</div>
+  <ul class="k">
+    <li><b>Coordination</b> basis <span class="d">— explains goals & inter-relationships</span></li>
+    <li><b>Smooth working</b> <span class="d">— when communication stops, organised activity ceases</span></li>
+    <li><b>Decision-making</b> basis <span class="d">— provides needed information</span></li>
+    <li><b>Managerial efficiency ↑</b> <span class="d">— conveying goals, instructions, allocating jobs</span></li>
+    <li><b>Cooperation & industrial peace</b> <span class="d">— two-way communication builds understanding</span></li>
+    <li><b>Leadership</b> <span class="d">— basis of influencing subordinates</span></li>
+    <li><b>Morale & motivation ↑</b> <span class="d">— basis of participative management</span></li>
+  </ul>
+  <div class="hook">🔑 Managers spend <b>~90%</b> of their time communicating · Chester Barnard: <span class="d">"foundation of all group activities"</span></div>
+</section>
+
+<!-- 9 FORMAL vs INFORMAL -->
+<section class="card" id="formal" style="--c:#db2777">
+  <h2><span class="num">9</span>Formal vs Informal Communication</h2>
+
+  <h3>📋 Formal</h3>
+  <div class="def">Flows through official channels in the organisation chart; oral or written, usually recorded & filed.</div>
+  <div class="grid2">
+    <div class="box"><b>⬆️ Vertical: Upward</b><span class="d">Subordinate → superior: leave application, progress report, request for grants</span></div>
+    <div class="box"><b>⬇️ Vertical: Downward</b><span class="d">Superior → subordinate: meeting notice, work orders, guidelines</span></div>
+    <div class="box full"><b>↔️ Horizontal / Lateral</b><span class="d">Between divisions: production manager ↔ marketing manager on delivery, design</span></div>
+  </div>
+
+  <h3>Formal Networks (5)</h3>
+  <div class="mn">🧠 <u>C</u>ats <u>W</u>ill <u>C</u>hase <u>F</u>at <u>I</u>nsects</div>
+  <div class="tw"><table>
+    <tr><th>Network</th><th>How it works</th></tr>
+    <tr><td>Single chain</td><td><span class="d">Each superior → his subordinate, level by level</span></td></tr>
+    <tr><td>Wheel</td><td><span class="d">All talk via one superior (hub); subordinates can't talk to each other</span></td></tr>
+    <tr><td>Circular</td><td><span class="d">Each talks to 2 neighbours; SLOW</span></td></tr>
+    <tr><td>Free flow</td><td><span class="d">Anyone talks to anyone; FAST</span></td></tr>
+    <tr><td>Inverted V</td><td><span class="d">Talks to immediate boss + boss's boss (only prescribed matters with the latter)</span></td></tr>
+  </table></div>
+
+  <h3>☕ Informal (Grapevine)</h3>
+  <div class="def">Communication outside formal lines; spreads in all directions regardless of authority levels.
+    <small>Arises from employees' need to share views that formal channels can't carry.</small>
+  </div>
+  <div class="hook">📌 Canteen chit-chat about the boss · rumours of transfers</div>
+  <div class="grid2">
+    <div class="box"><b>❌ Negatives</b><span class="d">Gets distorted, source hard to trace, rumours, may hamper work environment</span></div>
+    <div class="box"><b>✅ Positives</b><span class="d">Very fast; managers use it to test subordinates' reactions</span></div>
+  </div>
+  <div class="hook">🔑 Smart manager → <span class="d">use its positives, minimise its negatives</span></div>
+
+  <h3>Grapevine Networks (4)</h3>
+  <div class="mn">🧠 <u>S</u>illy <u>G</u>irls <u>P</u>lay <u>C</u>ards</div>
+  <ul class="k">
+    <li><b>Single strand</b> <span class="d">— each tells the next, in sequence</span></li>
+    <li><b>Gossip</b> <span class="d">— one tells everyone, non-selectively</span></li>
+    <li><b>Probability</b> <span class="d">— tells others at random</span></li>
+    <li><b>Cluster</b> <span class="d">— tells only trusted people → MOST POPULAR</span></li>
+  </ul>
+
+  <h3>⚖️ Comparison</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Formal</th><th>Informal</th></tr>
+    <tr><td>Channel</td><td><span class="d">Official, per org chart</span></td><td><span class="d">Unofficial, spontaneous</span></td></tr>
+    <tr><td>Direction</td><td><span class="d">Vertical / horizontal</span></td><td><span class="d">All directions</span></td></tr>
+    <tr><td>Record</td><td><span class="d">Recorded & filed</span></td><td><span class="d">Unrecorded</span></td></tr>
+    <tr><td>Speed</td><td><span class="d">Slower</span></td><td><span class="d">Very fast</span></td></tr>
+    <tr><td>Reliability</td><td><span class="d">Authentic</span></td><td><span class="d">Often distorted, rumours</span></td></tr>
+    <tr><td>Examples</td><td><span class="d">Orders, memos, circulars, minutes</span></td><td><span class="d">Rumours, whispers</span></td></tr>
+  </table></div>
+  <div class="hook">📌 Everyone approaches anyone freely → inefficiency + secrets leaked → <span class="d">adopt Formal communication (proper channels)</span></div>
+</section>
+
+<!-- 10 BARRIERS -->
+<section class="card" id="barriers" style="--c:#65a30d">
+  <h2><span class="num">10</span>Barriers & Improvement</h2>
+  <div class="mn">🧠 4 types: <u>S</u>ome <u>P</u>eople <u>O</u>ver <u>P</u>anic → Semantic · Psychological · Organisational · Personal</div>
+
+  <h3>🔤 Semantic (6): encoding/decoding problems</h3>
+  <div class="mn">🧠 <u>B</u>ad <u>S</u>pelling <u>F</u>eels <u>U</u>nusually <u>T</u>ough, <u>B</u>ro</div>
+  <ul class="k">
+    <li><b>Badly expressed message</b> <span class="d">— poor vocabulary, wrong or missing words</span></li>
+    <li><b>Symbols with different meanings</b> <span class="d">— "value" of a ring / friendship / skills</span></li>
+    <li><b>Faulty translations</b> <span class="d">— English → Hindi by a non-proficient translator</span></li>
+    <li><b>Unclarified assumptions</b> <span class="d">— "Take care of our guest" (full stay vs just drop to hotel)</span></li>
+    <li><b>Technical jargon</b> <span class="d">— specialists confuse non-specialists</span></li>
+    <li><b>Body language</b> mismatch <span class="d">— words say one thing, gestures another</span></li>
+  </ul>
+
+  <h3>🧠 Psychological (4): state of mind</h3>
+  <div class="mn">🧠 <u>P</u>olite <u>L</u>ions <u>L</u>ick <u>D</u>eer</div>
+  <ul class="k">
+    <li><b>Premature evaluation</b> <span class="d">— judging before the sender finishes (prejudice)</span></li>
+    <li><b>Lack of attention</b> <span class="d">— boss busy with a file ignores employee</span></li>
+    <li><b>Loss by transmission & poor retention</b> <span class="d">— passing through levels distorts (esp. oral); people forget</span></li>
+    <li><b>Distrust</b> <span class="d">— parties don't believe each other</span></li>
+  </ul>
+
+  <h3>🏢 Organisational (5): structure & rules</h3>
+  <div class="mn">🧠 <u>P</u>roper <u>R</u>ules <u>S</u>top <u>C</u>omplex <u>F</u>ailures</div>
+  <ul class="k">
+    <li><b>Policy</b> <span class="d">— not supportive of free flow (highly centralised)</span></li>
+    <li><b>Rules & regulations</b> <span class="d">— rigid procedures, prescribed channels → delays</span></li>
+    <li><b>Status</b> <span class="d">— psychological distance between superior & subordinates</span></li>
+    <li><b>Complex structure</b> <span class="d">— many levels → more filtering points → delay & distortion</span></li>
+    <li><b>Facilities lacking</b> <span class="d">— meetings, suggestion/complaint boxes, gatherings, transparency</span></li>
+  </ul>
+
+  <h3>👤 Personal (4): sender & receiver</h3>
+  <div class="mn">🧠 <u>F</u>ive <u>L</u>ittle <u>U</u>nicorns <u>L</u>aughed</div>
+  <ul class="k">
+    <li><b>Fear of challenge to authority</b> <span class="d">— superior withholds communication</span></li>
+    <li><b>Lack of confidence</b> in subordinates <span class="d">— superior doesn't seek their opinion</span></li>
+    <li><b>Unwillingness to communicate</b> <span class="d">— subordinate fears it hurts his interests</span></li>
+    <li><b>Lack of proper incentives</b> <span class="d">— no reward for suggestions → none offered</span></li>
+  </ul>
+
+  <h3>✅ Improving Communication (9)</h3>
+  <div class="mn">🧠 <u>C</u>lever <u>N</u>ewbies <u>C</u>an <u>L</u>earn <u>V</u>ery <u>F</u>ast; <u>P</u>ractice <u>F</u>ollows <u>L</u>istening</div>
+  <ul class="k">
+    <li><b>Clarify ideas</b> before communicating <span class="d">— study & analyse the problem first</span></li>
+    <li><b>Needs of receiver</b> <span class="d">— match their education & understanding level</span></li>
+    <li><b>Consult others</b> <span class="d">— involvement → ready acceptance & cooperation</span></li>
+    <li><b>Language, tone & content</b> <span class="d">— understandable, not offensive, stimulating</span></li>
+    <li><b>Value to listeners</b> <span class="d">— link message to their interests & needs</span></li>
+    <li><b>Feedback</b> ensured <span class="d">— ask questions, encourage responses</span></li>
+    <li><b>Present & future</b> <span class="d">— meet current commitments + aim at future goals</span></li>
+    <li><b>Follow up</b> <span class="d">— review instructions, remove hurdles</span></li>
+    <li><b>Listen well</b> <span class="d">— patient listening solves half the problems</span></li>
+  </ul>
+</section>
+
+</main>
+
+<button id="t">🧠 Test Me</button>
+
+<script>
+  const btn = document.getElementById('t');
+  btn.onclick = () => {
+    document.body.classList.toggle('recall');
+    document.querySelectorAll('.d.show').forEach(e => e.classList.remove('show'));
+    btn.textContent = document.body.classList.contains('recall') ? '👁 Show All' : '🧠 Test Me';
+  };
+  document.addEventListener('click', e => {
+    const d = e.target.closest('.d');
+    if (d && document.body.classList.contains('recall')) d.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

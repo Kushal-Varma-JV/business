@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 5 · Organising</title>
+<style>
+  :root{--ink:#1d2433;--mute:#5b6577;--bg:#f4f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px}
+  header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:18px 16px 14px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:4px 0 0;opacity:.9;font-size:13px}
+  .chaps{display:flex;gap:6px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
+  .chaps::-webkit-scrollbar{display:none}
+  .chaps a{flex:none;text-decoration:none;color:#fff;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+  .chaps a.on{background:#fff;color:#4f46e5}
+  nav{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:6px;overflow-x:auto;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,.07);scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none;text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600}
+  main{max-width:720px;margin:auto;padding:4px 12px 90px}
+  .card{background:#fff;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:5px solid var(--c);scroll-margin-top:56px}
+  h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .num{background:var(--c);color:#fff;border-radius:8px;min-width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+  h3{font-size:14px;margin:14px 0 6px;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+  .def{background:#f1f5ff;border-radius:10px;padding:10px 12px;font-weight:600}
+  .def small{display:block;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
+  .mn{background:#fff7ed;border:1px dashed #fb923c;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+  .mn u{text-decoration:none;color:#ea580c;font-weight:800;font-size:16px}
+  ul.k{list-style:none;padding:0;margin:0}
+  ul.k li{padding:8px 0;border-bottom:1px solid #eef0f4}
+  ul.k li:last-child{border-bottom:none}
+  ul.k b{color:var(--c)}
+  .d{color:var(--mute);transition:filter .2s}
+  body.recall .d{filter:blur(5px);cursor:pointer;user-select:none}
+  body.recall .d.show{filter:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+  .full{grid-column:1/-1}
+  .box{border-radius:10px;padding:10px;background:#f8fafc;font-size:14px}
+  .box b{display:block;font-size:15px;margin-bottom:2px}
+  .flow{display:flex;flex-wrap:wrap;gap:6px}
+  .step{flex:1 1 45%;min-width:140px;background:#f0fdfa;border-radius:10px;padding:8px 10px;font-size:14px}
+  .step b{color:#0d9488;font-size:16px}
+  .hook{background:#ecfdf5;border-radius:8px;padding:6px 10px;font-size:14px;margin-top:8px}
+  .tw{overflow-x:auto;margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td,th{padding:6px 5px;border-bottom:1px solid #eef0f4;text-align:left;vertical-align:top}
+  th{background:#f8fafc;color:var(--c)}
+  td:first-child{font-weight:700}
+  .chart{text-align:center;margin:10px 0}
+  .chart .top{display:inline-block;background:var(--c);color:#fff;border-radius:8px;padding:5px 12px;font-weight:700;font-size:13px}
+  .chart .line{width:2px;height:10px;background:#cbd5e1;margin:0 auto}
+  .chart .kids{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;border-top:2px solid #cbd5e1;padding-top:8px}
+  .chart .kids span{background:#f1f5f9;border-radius:6px;padding:4px 7px;font-size:12px;font-weight:600}
+  .chart .kids span.hi{background:var(--c);color:#fff}
+  .chart .lab{font-size:11px;color:var(--mute);margin:6px 0 2px}
+  #t{position:fixed;right:14px;bottom:16px;z-index:9;border:none;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;color:#fff;background:#111827;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  @media(max-width:420px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ch 5 · Organising</h1>
+  <p>Tap 🧠 Test Me to hide answers → tap blurred text to reveal</p>
+  <!--
+    CHAPTER FILE NAMES (keep all files in the same folder):
+    Ch 1 = index.html
+    Ch 2 = chapter2.html   Ch 3 = chapter3.html   Ch 4 = chapter4.html
+    Ch 5 = chapter5.html   Ch 6 = chapter6.html   Ch 7 = chapter7.html
+    Ch 8 = chapter8.html
+    In each file, put class="on" on that chapter's own button.
+  -->
+  <div class="chaps">
+    <a href="index.html">1 · Nature</a>
+    <a href="chapter2.html">2 · Principles</a>
+    <a href="chapter3.html">3 · Environment</a>
+    <a href="chapter4.html">4 · Planning</a>
+    <a href="chapter5.html" class="on">5 · Organising</a>
+    <a href="chapter6.html">6 · Staffing</a>
+    <a href="chapter7.html">7 · Directing</a>
+    <a href="chapter8.html">8 · Controlling</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#concept">Concept</a><a href="#process">Process</a><a href="#imp">Importance</a><a href="#structure">Structure</a><a href="#types">Func/Div</a><a href="#formal">Formal/Informal</a><a href="#deleg">Delegation</a><a href="#decen">Decentralisation</a>
+</nav>
+
+<main>
+
+<!-- 1 CONCEPT -->
+<section class="card" id="concept" style="--c:#4f46e5">
+  <h2><span class="num">1</span>Concept</h2>
+  <div class="def">Organising = process that starts putting plans into action by <u>clarifying jobs</u> & <u>working relationships</u> and <u>deploying resources</u> to achieve goals.
+    <small>Theo Haimann: "Process of defining and grouping the activities of the enterprise and establishing authority relationships among them."</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>🔄 Role</b><span class="d">Means of translating plans into action</span></div>
+    <div class="box"><b>🏗️ Output</b><span class="d">Creates the organisation structure (roles + relationships)</span></div>
+  </div>
+  <div class="hook">📌 School fete → <span class="d">work split into food, decoration & ticketing committees under one in-charge = organising</span></div>
+  <div class="hook">🔑 Organising brings <b>order out of chaos</b> & creates an environment for teamwork</div>
+</section>
+
+<!-- 2 PROCESS -->
+<section class="card" id="process" style="--c:#0d9488">
+  <h2><span class="num">2</span>Process (4 Steps)</h2>
+  <div class="mn">🧠 <u>I</u> <u>D</u>on't <u>A</u>sk <u>E</u>veryone → Identify · Departmentalise · Assign · Establish</div>
+  <div class="flow">
+    <div class="step"><b>1. I</b>dentify & divide work<br><span class="d">Split work (as per plans) into manageable activities → avoids duplication, shares burden</span></div>
+    <div class="step"><b>2. D</b>epartmentalisation<br><span class="d">Group similar activities into departments (basis: territory, product) → specialisation</span></div>
+    <div class="step"><b>3. A</b>ssign duties<br><span class="d">Each dept gets a head; jobs given as per skills (right job ↔ right person)</span></div>
+    <div class="step"><b>4. E</b>stablish authority & reporting<br><span class="d">Who takes orders from whom, who reports to whom → hierarchy + coordination</span></div>
+  </div>
+  <div class="hook">📌 12 students unloading library books → <span class="d">chaos if each works their own way; grouping + quotas + reporting = faster & better</span></div>
+</section>
+
+<!-- 3 IMPORTANCE -->
+<section class="card" id="imp" style="--c:#d97706">
+  <h2><span class="num">3</span>Importance (7)</h2>
+  <div class="mn">🧠 <u>S</u>mart <u>C</u>ats <u>O</u>nly <u>A</u>dopt <u>E</u>asy <u>D</u>aily <u>E</u>xercise</div>
+  <ul class="k">
+    <li><b>Specialisation</b> <span class="d">— repeating a specific job → experience, productivity ↑, workload ↓</span></li>
+    <li><b>Clarity in working relationships</b> <span class="d">— who reports to whom; fixes responsibility & extent of authority</span></li>
+    <li><b>Optimum use of resources</b> <span class="d">— no overlapping/duplication → less wastage of material, money, people</span></li>
+    <li><b>Adaptation to change</b> <span class="d">— structure can be modified → smooth transition + stability</span></li>
+    <li><b>Effective administration</b> <span class="d">— clear job descriptions → no confusion, easy management</span></li>
+    <li><b>Development of personnel</b> <span class="d">— delegation frees managers to innovate; subordinates realise potential</span></li>
+    <li><b>Expansion & growth</b> <span class="d">— add jobs, depts, product lines, new territories → customers, sales, profit ↑</span></li>
+  </ul>
+</section>
+
+<!-- 4 STRUCTURE -->
+<section class="card" id="structure" style="--c:#0891b2">
+  <h2><span class="num">4</span>Organisation Structure</h2>
+  <div class="def">Framework within which managerial & operating tasks are performed.
+    <small>Outcome of the organising process. Shows relationships between people, work & resources. Shown in an organisation chart.</small>
+  </div>
+  <div class="grid2">
+    <div class="box full"><b>👥 Span of Management</b><span class="d">No. of subordinates a superior can effectively manage → determines the LEVELS of management</span></div>
+    <div class="box"><b>📈 When needed</b><span class="d">Whenever the firm grows in size or complexity</span></div>
+    <div class="box"><b>✅ Ensures</b><span class="d">Smooth flow of communication + better control</span></div>
+  </div>
+  <div class="hook">🔑 Peter Drucker: <span class="d">wrong structure can seriously impair business performance & even destroy it</span></div>
+  <div class="hook">2 types → <b>Functional</b> · <b>Divisional</b></div>
+</section>
+
+<!-- 5 FUNCTIONAL vs DIVISIONAL -->
+<section class="card" id="types" style="--c:#9333ea">
+  <h2><span class="num">5</span>Functional vs Divisional</h2>
+
+  <h3>🏭 Functional Structure</h3>
+  <div class="def">Grouping similar/related jobs into major functions (production, marketing, finance, HR…), each a separate dept. All report to a coordinating head.</div>
+  <div class="chart">
+    <div class="top">Managing Director</div><div class="line"></div>
+    <div class="kids"><span>HR</span><span>Marketing</span><span>R&amp;D</span><span>Purchasing</span></div>
+  </div>
+  <div class="mn">✅ <u>S</u>ome <u>C</u>ows <u>E</u>at <u>D</u>ry <u>T</u>asty <u>A</u>pples (6)</div>
+  <ul class="k">
+    <li><b>Specialisation</b> (occupational) <span class="d">— similar tasks → efficient use of manpower</span></li>
+    <li><b>Control & coordination</b> within a dept <span class="d">— tasks are similar</span></li>
+    <li><b>Efficiency</b> (managerial & operational) <span class="d">→ more profit</span></li>
+    <li><b>Duplication minimal</b> <span class="d">→ economies of scale, lower cost</span></li>
+    <li><b>Training</b> easier <span class="d">— only a limited range of skills</span></li>
+    <li><b>Attention</b> <span class="d">— every function gets due attention</span></li>
+  </ul>
+  <div class="mn">❌ <u>E</u>mpires <u>C</u>an <u>C</u>rumble <u>I</u>nstantly (4)</div>
+  <ul class="k">
+    <li><b>Functional Empires</b> <span class="d">— dept goals put above organisation's goals</span></li>
+    <li><b>Coordination problems</b> <span class="d">— info must cross many separate depts</span></li>
+    <li><b>Conflict of interests</b> <span class="d">— e.g. sales wants customer-friendly design, production struggles</span></li>
+    <li><b>Inflexibility</b> <span class="d">— narrow outlook; heads not trained for top posts</span></li>
+  </ul>
+  <div class="hook">🎯 Suitable: <span class="d">large organisation, diversified activities, high specialisation needed</span></div>
+  <div class="hook">📌 Registered office Delhi, factory Gurgaon, sales Faridabad (consumer products) → <span class="d">Functional</span></div>
+
+  <h3>🧩 Divisional Structure</h3>
+  <div class="def">Separate business units (divisions) formed on <u>product lines</u>. Each division is multifunctional, self-contained & a <u>profit centre</u> under a divisional manager.</div>
+  <div class="chart">
+    <div class="top">Managing Director</div><div class="line"></div>
+    <div class="kids"><span>Cosmetics</span><span class="hi">Garments</span><span>Footwear</span><span>Skin care</span></div>
+    <div class="lab">inside each division ↓</div>
+    <div class="kids"><span>HR</span><span>Marketing</span><span>R&amp;D</span><span>Purchasing</span></div>
+  </div>
+  <div class="mn">✅ <u>P</u>retty <u>A</u>nts <u>F</u>ind <u>E</u>verything (4)</div>
+  <ul class="k">
+    <li><b>Product specialisation</b> <span class="d">— divisional head gains all-round skills → ready for higher posts</span></li>
+    <li><b>Accountability</b> for profits <span class="d">— revenue & cost per division clear → easy to fix responsibility</span></li>
+    <li><b>Flexibility & initiative</b> <span class="d">— autonomous unit → faster decisions</span></li>
+    <li><b>Expansion</b> easy <span class="d">— add a new division without disturbing existing ones</span></li>
+  </ul>
+  <div class="mn">❌ <u>C</u>an't <u>C</u>ontrol <u>I</u>t (3)</div>
+  <ul class="k">
+    <li><b>Conflict</b> between divisions <span class="d">— over funds; one division profits at another's cost</span></li>
+    <li><b>Costly</b> <span class="d">— same functions duplicated in every division</span></li>
+    <li><b>Ignores org interests</b> <span class="d">— powerful divisional head may act independently</span></li>
+  </ul>
+  <div class="hook">🎯 Suitable: <span class="d">large variety of products using different productive resources; growing firms</span></div>
+  <div class="hook">📌 Neha (shoes → bags + formal wear) · toy company adding electronic toys · Wipro (split by product line) → <span class="d">Divisional</span></div>
+
+  <h3>⚖️ Comparison</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Functional</th><th>Divisional</th></tr>
+    <tr><td>Formation</td><td><span class="d">Functions</span></td><td><span class="d">Product lines (supported by functions)</span></td></tr>
+    <tr><td>Specialisation</td><td><span class="d">Functional</span></td><td><span class="d">Product</span></td></tr>
+    <tr><td>Responsibility</td><td><span class="d">Difficult to fix</span></td><td><span class="d">Easy to fix</span></td></tr>
+    <tr><td>Managerial development</td><td><span class="d">Difficult (all report to top)</span></td><td><span class="d">Easier (autonomy + multiple functions)</span></td></tr>
+    <tr><td>Cost</td><td><span class="d">Economical (no duplication)</span></td><td><span class="d">Costly (duplication)</span></td></tr>
+    <tr><td>Coordination</td><td><span class="d">Difficult for multi-product firm</span></td><td><span class="d">Easy (all functions of a product in one place)</span></td></tr>
+  </table></div>
+</section>
+
+<!-- 6 FORMAL vs INFORMAL -->
+<section class="card" id="formal" style="--c:#e11d48">
+  <h2><span class="num">6</span>Formal vs Informal</h2>
+
+  <h3>📋 Formal Organisation</h3>
+  <div class="def">Structure deliberately designed by management to accomplish a task; clear boundaries of authority & responsibility.
+    <small>Chester Barnard: "A system of consciously coordinated activities of two or more persons toward a common objective." Can be functional or divisional.</small>
+  </div>
+  <div class="mn">🔍 Features: <u>R</u>eal <u>M</u>anagers <u>C</u>an <u>D</u>esign <u>W</u>ork (5)</div>
+  <ul class="k">
+    <li><b>Relationships</b> specified <span class="d">— who reports to whom</span></li>
+    <li><b>Means</b> to achieve objectives <span class="d">— lays down rules & procedures</span></li>
+    <li><b>Coordinates</b> efforts <span class="d">— links & integrates departments</span></li>
+    <li><b>Deliberately designed</b> <span class="d">— by top management</span></li>
+    <li><b>Work</b> emphasised <span class="d">— over interpersonal relationships</span></li>
+  </ul>
+  <div class="mn">✅ <u>F</u>ine <u>R</u>oles <u>U</u>nite <u>E</u>very <u>S</u>taff (5)</div>
+  <ul class="k">
+    <li><b>Fixing responsibility</b> easy <span class="d">— relationships clearly defined</span></li>
+    <li><b>Role clarity</b> <span class="d">— duties specified → no ambiguity, no duplication</span></li>
+    <li><b>Unity of command</b> <span class="d">— via established chain of command</span></li>
+    <li><b>Effective goal accomplishment</b> <span class="d">— framework + everyone knows their role</span></li>
+    <li><b>Stability</b> <span class="d">— behaviour predictable due to rules</span></li>
+  </ul>
+  <div class="mn">❌ <u>D</u>elays <u>C</u>rush <u>L</u>earning (3)</div>
+  <ul class="k">
+    <li><b>Delays</b> (procedural) <span class="d">— chain of command must be followed → slow decisions</span></li>
+    <li><b>Creativity ignored</b> <span class="d">— no deviation from rigid policies</span></li>
+    <li><b>Limited picture</b> <span class="d">— ignores human relationships; doesn't show how org really works</span></li>
+  </ul>
+
+  <h3>☕ Informal Organisation</h3>
+  <div class="def">Network of social relationships among employees arising from interaction at work.
+    <small>Keith Davis: "Network of personal and social relations… arising spontaneously as people associate with one another."</small>
+  </div>
+  <div class="hook">📌 Sunday cricket group · cafeteria coffee group · dramatics group</div>
+  <div class="mn">🔍 Features: <u>O</u>rdinary <u>N</u>orms <u>C</u>an <u>S</u>pread <u>S</u>ilently (5)</div>
+  <ul class="k">
+    <li><b>Originates</b> within formal org <span class="d">— from personal interaction</span></li>
+    <li><b>Norms</b> <span class="d">— behaviour set by group norms, not official rules</span></li>
+    <li><b>Channels</b> of communication <span class="d">— independent, no fixed direction</span></li>
+    <li><b>Spontaneous</b> <span class="d">— not deliberately created by management</span></li>
+    <li><b>Structureless</b> <span class="d">— no definite form; complex social network</span></li>
+  </ul>
+  <div class="mn">✅ <u>F</u>riends <u>S</u>hare <u>F</u>un (3)</div>
+  <ul class="k">
+    <li><b>Faster communication</b> <span class="d">— no prescribed lines → quick spread & feedback</span></li>
+    <li><b>Social needs</b> met <span class="d">— like-minded people → belongingness, job satisfaction</span></li>
+    <li><b>Fills gaps</b> of formal org <span class="d">— e.g. test employees' reaction to plans</span></li>
+  </ul>
+  <div class="mn">❌ <u>R</u>eally <u>R</u>ude <u>P</u>eople (3)</div>
+  <ul class="k">
+    <li><b>Rumours</b> <span class="d">— becomes a destructive force</span></li>
+    <li><b>Resistance to change</b> <span class="d">— may delay or restrict growth</span></li>
+    <li><b>Pressure to conform</b> <span class="d">— harmful if group norms oppose org interests</span></li>
+  </ul>
+  <div class="hook">🔑 Can't be eliminated → <span class="d">management should recognise it & use BOTH formal and informal together</span></div>
+  <div class="hook">📌 Rigid formal sewing-machine company (delays, red tape, high turnover) → <span class="d">encourage informal organisation alongside formal</span></div>
+
+  <h3>⚖️ Comparison</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Formal</th><th>Informal</th></tr>
+    <tr><td>Meaning</td><td><span class="d">Authority structure created by management</span></td><td><span class="d">Social network from interaction</span></td></tr>
+    <tr><td>Origin</td><td><span class="d">Company rules & policies</span></td><td><span class="d">Social interaction</span></td></tr>
+    <tr><td>Authority</td><td><span class="d">From position</span></td><td><span class="d">From personal qualities</span></td></tr>
+    <tr><td>Behaviour</td><td><span class="d">Directed by rules</span></td><td><span class="d">No set pattern</span></td></tr>
+    <tr><td>Communication</td><td><span class="d">Through scalar chain</span></td><td><span class="d">Any direction, no planned route</span></td></tr>
+    <tr><td>Nature</td><td><span class="d">Rigid</span></td><td><span class="d">Flexible</span></td></tr>
+    <tr><td>Leadership</td><td><span class="d">Managers are leaders</span></td><td><span class="d">Leaders chosen by group (may not be managers)</span></td></tr>
+  </table></div>
+</section>
+
+<!-- 7 DELEGATION -->
+<section class="card" id="deleg" style="--c:#2563eb">
+  <h2><span class="num">7</span>Delegation</h2>
+  <div class="def">Delegation = downward transfer of authority from superior to subordinate.
+    <small>Theo Haimann: "Granting of authority to subordinates to operate within prescribed limits."</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>🤔 Why</b><span class="d">No manager can do everything; frees time for high-priority work</span></div>
+    <div class="box"><b>⚠️ Not abdication</b><span class="d">Manager stays fully accountable; authority can be taken back</span></div>
+  </div>
+
+  <h3>Elements (3)</h3>
+  <div class="mn">🧠 <u>D</u>-<u>A</u>-<u>I</u> → Authority is <u>D</u>elegated · Responsibility is <u>A</u>ssumed · Accountability is <u>I</u>mposed</div>
+  <ul class="k">
+    <li><b>Authority</b> <span class="d">— right to command & take decisions; arises from scalar chain; highest at top; limited by laws & org rules</span></li>
+    <li><b>Responsibility</b> <span class="d">— obligation to properly perform assigned duty; arises from superior–subordinate relationship</span></li>
+    <li><b>Accountability</b> <span class="d">— answerability for final outcome; enforced through regular feedback</span></li>
+  </ul>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Authority</th><th>Responsibility</th><th>Accountability</th></tr>
+    <tr><td>Meaning</td><td><span class="d">Right to command</span></td><td><span class="d">Obligation to perform</span></td><td><span class="d">Answerability for outcome</span></td></tr>
+    <tr><td>Delegation</td><td><span class="d">Can be</span></td><td><span class="d">Not entirely</span></td><td><span class="d">Not at all</span></td></tr>
+    <tr><td>Origin</td><td><span class="d">Formal position</span></td><td><span class="d">Delegated authority</span></td><td><span class="d">Responsibility</span></td></tr>
+    <tr><td>Flow</td><td><span class="d">⬇ Downward</span></td><td><span class="d">⬆ Upward</span></td><td><span class="d">⬆ Upward</span></td></tr>
+  </table></div>
+  <div class="grid2">
+    <div class="box"><b>Authority &gt; Responsibility</b><span class="d">= misuse of authority</span></div>
+    <div class="box"><b>Responsibility &gt; Authority</b><span class="d">= person becomes ineffective</span></div>
+  </div>
+  <div class="hook">🔑 Authority must be <b>commensurate</b> (equal) with responsibility</div>
+  <div class="hook">📌 Foreman given 200-unit target but no authority to get tools → <span class="d">can't be blamed (authority ≠ responsibility)</span></div>
+
+  <h3>Importance (6)</h3>
+  <div class="mn">🧠 <u>E</u>very <u>E</u>lephant <u>M</u>ay <u>G</u>row <u>H</u>uge <u>C</u>almly</div>
+  <ul class="k">
+    <li><b>Effective management</b> <span class="d">— managers freed from routine → focus on important matters</span></li>
+    <li><b>Employee development</b> <span class="d">— use talent, gain skills → better future managers</span></li>
+    <li><b>Motivation</b> <span class="d">— trust shown → self-esteem & confidence ↑</span></li>
+    <li><b>Growth</b> facilitated <span class="d">— trained staff ready to lead new ventures/branches</span></li>
+    <li><b>Hierarchy</b> basis <span class="d">— creates superior–subordinate relationships</span></li>
+    <li><b>Coordination</b> better <span class="d">— clear powers, duties, answerability → no overlap</span></li>
+  </ul>
+</section>
+
+<!-- 8 DECENTRALISATION -->
+<section class="card" id="decen" style="--c:#16a34a">
+  <h2><span class="num">8</span>Decentralisation</h2>
+  <div class="def">Decentralisation = delegation of authority to ALL levels; decision-making pushed down to the points of action.
+    <small>Louis Allen: "Systematic effort to delegate to the lowest level all authority except that which can be exercised at central points."</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>🏛️ Centralised</b><span class="d">Decision-making authority kept at top</span></div>
+    <div class="box"><b>🌐 Decentralised</b><span class="d">Authority shared with lower levels</span></div>
+  </div>
+  <div class="hook">🔑 Relative terms → <span class="d">no organisation is fully either (full centralisation = no need for hierarchy; full decentralisation = no need for top managers). Every organisation has a balance of both</span></div>
+  <div class="hook">📈 As a firm grows → <span class="d">tends to decentralise (people close to operations know more)</span></div>
+  <div class="hook">💡 Philosophy → <span class="d">people are competent, capable & resourceful; authority dispersed selectively</span></div>
+
+  <h3>Importance (6)</h3>
+  <div class="mn">🧠 <u>I</u> <u>T</u>hink <u>Q</u>uick <u>R</u>esponses <u>G</u>ive <u>C</u>ontrol</div>
+  <ul class="k">
+    <li><b>Initiative</b> develops <span class="d">— self-reliance & confidence; spots future leaders</span></li>
+    <li><b>Talent</b> for future <span class="d">— reservoir of managers for promotion</span></li>
+    <li><b>Quick decisions</b> <span class="d">— made near point of action; less distortion of info</span></li>
+    <li><b>Relief to top management</b> <span class="d">— less supervision → time for policy decisions</span></li>
+    <li><b>Growth</b> facilitated <span class="d">— competition between depts → productivity & returns ↑</span></li>
+    <li><b>Control</b> better <span class="d">— each level evaluated (balanced scorecard, MIS)</span></li>
+  </ul>
+  <div class="hook">⚠️ Caution → <span class="d">can cause disintegration; keep major policy decisions centralised</span></div>
+  <div class="hook">📌 Wipro (centralised → decentralised) · J&amp;J (run as 190 smaller companies) · X Ltd FMCG losing share to MNCs → <span class="d">Decentralise</span></div>
+
+  <h3>⚖️ Delegation vs Decentralisation</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Delegation</th><th>Decentralisation</th></tr>
+    <tr><td>Nature</td><td><span class="d">Compulsory (no one can do all tasks)</span></td><td><span class="d">Optional (top management's choice)</span></td></tr>
+    <tr><td>Freedom</td><td><span class="d">Less (more control by superior)</span></td><td><span class="d">More (less control)</span></td></tr>
+    <tr><td>Status</td><td><span class="d">Process to share tasks</span></td><td><span class="d">Result of policy decision</span></td></tr>
+    <tr><td>Scope</td><td><span class="d">Narrow (superior ↔ immediate subordinate)</span></td><td><span class="d">Wide (down to lowest level)</span></td></tr>
+    <tr><td>Purpose</td><td><span class="d">Reduce manager's burden</span></td><td><span class="d">Give subordinates more autonomy</span></td></tr>
+  </table></div>
+  <div class="hook">🔑 Decentralisation = delegation extended to the <b>lowest level</b></div>
+</section>
+
+</main>
+
+<button id="t">🧠 Test Me</button>
+
+<script>
+  const btn = document.getElementById('t');
+  btn.onclick = () => {
+    document.body.classList.toggle('recall');
+    document.querySelectorAll('.d.show').forEach(e => e.classList.remove('show'));
+    btn.textContent = document.body.classList.contains('recall') ? '👁 Show All' : '🧠 Test Me';
+  };
+  document.addEventListener('click', e => {
+    const d = e.target.closest('.d');
+    if (d && document.body.classList.contains('recall')) d.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

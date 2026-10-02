@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 4 · Planning</title>
+<style>
+  :root{--ink:#1d2433;--mute:#5b6577;--bg:#f4f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px}
+  header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:18px 16px 14px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:4px 0 0;opacity:.9;font-size:13px}
+  .chaps{display:flex;gap:6px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
+  .chaps::-webkit-scrollbar{display:none}
+  .chaps a{flex:none;text-decoration:none;color:#fff;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+  .chaps a.on{background:#fff;color:#4f46e5}
+  nav{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:6px;overflow-x:auto;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,.07);scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none;text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600}
+  main{max-width:720px;margin:auto;padding:4px 12px 90px}
+  .card{background:#fff;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:5px solid var(--c);scroll-margin-top:56px}
+  h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .num{background:var(--c);color:#fff;border-radius:8px;min-width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+  h3{font-size:14px;margin:14px 0 6px;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+  .def{background:#f1f5ff;border-radius:10px;padding:10px 12px;font-weight:600}
+  .def small{display:block;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
+  .mn{background:#fff7ed;border:1px dashed #fb923c;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+  .mn u{text-decoration:none;color:#ea580c;font-weight:800;font-size:16px}
+  ul.k{list-style:none;padding:0;margin:0}
+  ul.k li{padding:8px 0;border-bottom:1px solid #eef0f4}
+  ul.k li:last-child{border-bottom:none}
+  ul.k b{color:var(--c)}
+  .d{color:var(--mute);transition:filter .2s}
+  body.recall .d{filter:blur(5px);cursor:pointer;user-select:none}
+  body.recall .d.show{filter:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+  .full{grid-column:1/-1}
+  .box{border-radius:10px;padding:10px;background:#f8fafc;font-size:14px}
+  .box b{display:block;font-size:15px;margin-bottom:2px}
+  .y{color:#16a34a;font-weight:800}
+  .n{color:#dc2626;font-weight:800}
+  .p{color:#d97706;font-weight:800}
+  .legend{font-size:13px;color:var(--mute);margin-bottom:4px}
+  .row{display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:14px}
+  .tag{flex:none;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;margin-top:1px}
+  .tag.r{background:#f3e8ff;color:#7e22ce}
+  .tag.m{background:#dcfce7;color:#15803d}
+  .verdict{font-weight:700;background:#faf5ff;border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+  .flow{display:flex;flex-wrap:wrap;gap:6px}
+  .step{flex:1 1 45%;min-width:140px;background:#f0fdfa;border-radius:10px;padding:8px 10px;font-size:14px}
+  .step b{color:#0d9488;font-size:16px}
+  .hook{background:#ecfdf5;border-radius:8px;padding:6px 10px;font-size:14px;margin-top:8px}
+  .tw{overflow-x:auto;margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td,th{padding:6px 5px;border-bottom:1px solid #eef0f4;text-align:left;vertical-align:top}
+  th{background:#f8fafc;color:var(--c)}
+  td:first-child{font-weight:700}
+  .chart{text-align:center;margin:10px 0}
+  .chart .top{display:inline-block;background:var(--c);color:#fff;border-radius:8px;padding:5px 12px;font-weight:700;font-size:13px}
+  .chart .line{width:2px;height:10px;background:#cbd5e1;margin:0 auto}
+  .chart .kids{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;border-top:2px solid #cbd5e1;padding-top:8px}
+  .chart .kids span{background:#f1f5f9;border-radius:6px;padding:4px 7px;font-size:12px;font-weight:600}
+  .chart .kids span.hi{background:var(--c);color:#fff}
+  .chart .lab{font-size:11px;color:var(--mute);margin:6px 0 2px}
+  #t{position:fixed;right:14px;bottom:16px;z-index:9;border:none;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;color:#fff;background:#111827;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  @media(max-width:420px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ch 4 · Planning</h1>
+  <p>Tap 🧠 Test Me to hide answers → tap blurred text to reveal</p>
+  <!--
+    CHAPTER FILE NAMES (keep all files in the same folder):
+    Ch 1 = index.html
+    Ch 2 = chapter2.html   Ch 3 = chapter3.html   Ch 4 = chapter4.html
+    Ch 5 = chapter5.html   Ch 6 = chapter6.html   Ch 7 = chapter7.html
+    Ch 8 = chapter8.html
+    In each file, put class="on" on that chapter's own button.
+  -->
+  <div class="chaps">
+    <a href="index.html">1 · Nature</a>
+    <a href="chapter2.html">2 · Principles</a>
+    <a href="chapter3.html">3 · Environment</a>
+    <a href="chapter4.html" class="on">4 · Planning</a>
+    <a href="chapter5.html">5 · Organising</a>
+    <a href="chapter6.html">6 · Staffing</a>
+    <a href="chapter7.html">7 · Directing</a>
+    <a href="chapter8.html">8 · Controlling</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#concept">Concept</a><a href="#imp">Importance</a><a href="#feat">Features</a><a href="#limits">Limitations</a><a href="#process">Process</a><a href="#single">Single/Standing</a><a href="#types">Types</a><a href="#which">Which Plan?</a>
+</nav>
+
+<main>
+
+<!-- 1 CONCEPT -->
+<section class="card" id="concept" style="--c:#4f46e5">
+  <h2><span class="num">1</span>Concept</h2>
+  <div class="def">Planning = deciding in advance <u>what to do</u> & <u>how to do</u> it.
+    <small>Full definition: setting objectives for a given time period, formulating various courses of action to achieve them, and selecting the best alternative.</small>
+  </div>
+  <div class="mn">🧠 Main aspects: <u>S</u>mart <u>T</u>eens <u>F</u>ind <u>S</u>olutions → Set objectives · Time period · Formulate alternatives · Select the best</div>
+  <div class="grid2">
+    <div class="box"><b>🎯 Ends & Means</b><span class="d">Ends = what is to be done · Means = how it is to be done</span></div>
+    <div class="box"><b>🌉 Bridge</b><span class="d">Fills the gap between where we are & where we want to go</span></div>
+    <div class="box"><b>⏳ Time frame</b><span class="d">Time is limited; if ignored, conditions change & plans go waste</span></div>
+    <div class="box"><b>🚀 Must be acted upon</b><span class="d">A plan that isn't implemented is a futile exercise</span></div>
+    <div class="box full"><b>💡 Also</b><span class="d">Basic managerial function · done at all levels · linked to creativity & innovation · needs decisions (choice among alternatives)</span></div>
+  </div>
+  <div class="hook">📌 IOCL: ₹20,000 cr planned for 2017-18 expansion & overseas markets (Bangladesh, Nepal, Bhutan, Myanmar) → <span class="d">broad plans must be broken into steps for implementation</span></div>
+</section>
+
+<!-- 2 IMPORTANCE -->
+<section class="card" id="imp" style="--c:#d97706">
+  <h2><span class="num">2</span>Importance (6)</h2>
+  <div class="mn">🧠 <u>D</u>-<u>R</u>-<u>O</u>-<u>I</u>-<u>D</u>-<u>S</u> → DROIDS</div>
+  <ul class="k">
+    <li><b>Directions</b> provided <span class="d">— clear goals guide action; departments work in coordination, not in different directions</span></li>
+    <li><b>Reduces risks</b> of uncertainty <span class="d">— anticipates changes & prepares responses (changes can't be eliminated)</span></li>
+    <li><b>Overlapping & wasteful activities</b> reduced <span class="d">— clarity in thought & action; useless activities removed; inefficiencies easier to detect</span></li>
+    <li><b>Innovative ideas</b> promoted <span class="d">— first function, so new ideas take shape as concrete plans</span></li>
+    <li><b>Decision making</b> facilitated <span class="d">— evaluate alternatives, select the most viable → rational decisions</span></li>
+    <li><b>Standards</b> for controlling <span class="d">— goals = standards to measure actual performance against; correct deviations</span></li>
+  </ul>
+  <div class="hook">🔑 Planning is a <b>prerequisite for controlling</b> → <span class="d">no goals or standards = no deviations to find</span></div>
+</section>
+
+<!-- 3 FEATURES -->
+<section class="card" id="feat" style="--c:#0891b2">
+  <h2><span class="num">3</span>Features (7)</h2>
+  <div class="mn">🧠 <u>O</u>nly <u>P</u>eople <u>P</u>lan <u>C</u>arefully <u>F</u>or <u>D</u>aily <u>M</u>eals</div>
+  <ul class="k">
+    <li><b>Objectives</b> focused <span class="d">— purposeful; meaningless unless it helps achieve goals</span></li>
+    <li><b>Primary function</b> <span class="d">— base for all other functions; precedes them = "primacy of planning"</span></li>
+    <li><b>Pervasive</b> <span class="d">— all levels & departments; Top: whole org · Middle: departmental · Supervisors: day-to-day</span></li>
+    <li><b>Continuous</b> <span class="d">— planning cycle: plan framed → implemented → new plan for next period</span></li>
+    <li><b>Futuristic</b> <span class="d">— looks ahead, based on forecasting (sales forecast → annual production & sales plan)</span></li>
+    <li><b>Decision making</b> <span class="d">— needs alternatives; only one option = no need to plan</span></li>
+    <li><b>Mental exercise</b> <span class="d">— foresight, intelligent imagination, sound judgement; thinking, not doing; logical, not guesswork</span></li>
+  </ul>
+  <div class="hook">📌 Polaris sets expansion target first (800 more professionals in 6 months) → <span class="d">objectives come first = primary function</span></div>
+  <div class="hook">📌 C Ltd: team from all levels brainstorms new models to improve future market standing → <span class="d">Pervasive · Futuristic · Mental exercise</span></div>
+</section>
+
+<!-- 4 LIMITATIONS -->
+<section class="card" id="limits" style="--c:#e11d48">
+  <h2><span class="num">4</span>Limitations (6)</h2>
+  <div class="mn">🧠 <u>R</u>ich <u>D</u>ads <u>C</u>an't <u>C</u>ount <u>T</u>heir <u>G</u>old</div>
+  <ul class="k">
+    <li><b>Rigidity</b> <span class="d">— fixed goals & time frames; managers can't adapt when circumstances change</span></li>
+    <li><b>Dynamic environment</b> <span class="d">— policy changes, political instability, natural calamity, competition → targets & cash budgets revised</span></li>
+    <li><b>Creativity reduced</b> <span class="d">— top plans, others only implement; can't deviate → initiative lost</span></li>
+    <li><b>Costs</b> huge <span class="d">— time & money; board meetings, experts, viability studies; may not justify benefits</span></li>
+    <li><b>Time-consuming</b> <span class="d">— little time left for implementation</span></li>
+    <li><b>Guarantee</b> of success absent <span class="d">— relying on past successful plans → complacency & false sense of security</span></li>
+  </ul>
+  <div class="hook">🔑 Despite limits → <span class="d">not useless; a tool to use with caution; not a solution to all problems</span></div>
+
+  <h3>⚖️ "Planning reduces creativity": critically comment</h3>
+  <div class="grid2">
+    <div class="box"><b>✅ Promotes innovation</b><span class="d">First function → new ideas take shape as concrete plans; guides growth</span></div>
+    <div class="box"><b>❌ Reduces creativity</b><span class="d">Done by top mgmt; others just follow orders, can't deviate</span></div>
+  </div>
+  <div class="hook">📌 Why can't organisations achieve all objectives? / Why no guaranteed success? → <span class="d">answer with the limitations above (dynamic environment, rigidity, complacency, poor implementation)</span></div>
+  <div class="hook">📌 Can planning work in a changing environment? → <span class="d">Not fully: it can't foresee everything, so plans need flexibility & revision</span></div>
+</section>
+
+<!-- 5 PROCESS -->
+<section class="card" id="process" style="--c:#0d9488">
+  <h2><span class="num">5</span>Planning Process (7 Steps)</h2>
+  <div class="mn">🧠 <u>S</u>mart <u>D</u>ogs <u>I</u>n <u>E</u>gypt <u>S</u>niff <u>I</u>nteresting <u>F</u>ood</div>
+  <div class="flow">
+    <div class="step"><b>1. S</b>etting objectives<br><span class="d">For org & each dept (e.g. sales ↑ 20%); percolate down to all levels; managers participate</span></div>
+    <div class="step"><b>2. D</b>eveloping premises<br><span class="d">Premises = assumptions about the future (forecasts, existing plans, past policies); same for all, total agreement</span></div>
+    <div class="step"><b>3. I</b>dentifying alternatives<br><span class="d">List all possible courses: routine or innovative; important project → more alternatives</span></div>
+    <div class="step"><b>4. E</b>valuating alternatives<br><span class="d">Weigh pros & cons vs objective (risk-return trade-off); feasibility & consequences</span></div>
+    <div class="step"><b>5. S</b>electing an alternative<br><span class="d">Real point of decision making; most feasible, profitable, least negative; may combine plans; judgement & intuition</span></div>
+    <div class="step"><b>6. I</b>mplementing the plan<br><span class="d">Putting it into action; other functions come in (more output → organise labour, buy machinery)</span></div>
+    <div class="step"><b>7. F</b>ollow-up action<br><span class="d">Monitor whether activities run to schedule → objectives achieved</span></div>
+  </div>
+  <div class="hook">🔮 Forecasts used for premises → <span class="d">demand, policy change, interest rates, capital goods prices, tax rates</span></div>
+  <div class="hook">📌 Ms Rajni lists options (new markets, wider range, discounts, more ads) to raise share 10% → 25% → <span class="d">Identifying alternative courses of action</span></div>
+</section>
+
+<!-- 6 SINGLE-USE vs STANDING -->
+<section class="card" id="single" style="--c:#9333ea">
+  <h2><span class="num">6</span>Single-use vs Standing Plans</h2>
+  <div class="chart">
+    <div class="top">Operational Plans</div><div class="line"></div>
+    <div class="kids"><span class="hi">Single-use</span><span class="hi">Standing</span></div>
+    <div class="lab">Single-use ↓</div>
+    <div class="kids"><span>Budget</span><span>Programme</span><span>Project</span></div>
+    <div class="lab">Standing ↓</div>
+    <div class="kids"><span>Policy</span><span>Procedure</span><span>Method</span><span>Rule</span></div>
+  </div>
+  <div class="mn">🧠 Single-use: <u>B</u>ig <u>P</u>ink <u>P</u>ig · Standing: <u>P</u>olite <u>P</u>eople <u>M</u>ake <u>R</u>equests</div>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Single-use</th><th>Standing</th></tr>
+    <tr><td>Meaning</td><td><span class="d">For a one-time event or project</span></td><td><span class="d">For activities that occur regularly</span></td></tr>
+    <tr><td>Situation</td><td><span class="d">Non-recurring</span></td><td><span class="d">Recurring</span></td></tr>
+    <tr><td>Life</td><td><span class="d">Depends on project (a day, a week, a month)</span></td><td><span class="d">Developed once, modified from time to time</span></td></tr>
+    <tr><td>Purpose</td><td><span class="d">Complete a specific project/event</span></td><td><span class="d">Smooth internal operations; efficient routine decisions</span></td></tr>
+    <tr><td>Details</td><td><span class="d">Include names of employees responsible</span></td><td><span class="d">General guidance for repeated situations</span></td></tr>
+    <tr><td>Examples</td><td><span class="d">Budgets, programmes, projects</span></td><td><span class="d">Policies, procedures, methods, rules</span></td></tr>
+  </table></div>
+  <div class="hook">🔑 Objectives & Strategy = <b>neither</b> → <span class="d">part of strategic planning by top management</span></div>
+  <div class="hook">📌 Seminar or conference for one day → <span class="d">Single-use</span></div>
+</section>
+
+<!-- 7 TYPES -->
+<section class="card" id="types" style="--c:#2563eb">
+  <h2><span class="num">7</span>Types of Plans (8)</h2>
+  <div class="mn">🧠 <u>O</u>ld <u>S</u>ailors <u>P</u>refer <u>P</u>irate <u>M</u>aps, <u>R</u>um, <u>P</u>arrots & <u>B</u>oats</div>
+
+  <h3>🎯 1. Objectives</h3>
+  <div class="def">Desired future position management wants to reach = the end result of activities.</div>
+  <ul class="k">
+    <li><b>Nature</b> <span class="d">— end point of planning; all activities directed towards them; e.g. sales ↑ 10%, 20% profit</span></li>
+    <li><b>Set by</b> <span class="d">— top management; broad, general issues; depts may set their own</span></li>
+    <li><b>Must be</b> <span class="d">— measurable (quantitative), written, with a time period</span></li>
+  </ul>
+
+  <h3>♟️ 2. Strategy</h3>
+  <div class="def">Comprehensive plan for accomplishing objectives; defines the organisation's direction & scope in the long run.</div>
+  <div class="mn">🧠 3 dimensions: <u>L</u>ions <u>C</u>hase <u>A</u>ntelopes → Long-term objectives · Course of action · Allocating resources</div>
+  <ul class="k">
+    <li><b>Considers</b> <span class="d">— business environment (economic, political, social, legal, technological) & competition</span></li>
+    <li><b>Strategic decisions</b> <span class="d">— stay in same line? add new lines? seek dominant position in the market?</span></li>
+    <li><b>Marketing strategy asks</b> <span class="d">— who are customers? demand? distribution channel? pricing? advertising?</span></li>
+  </ul>
+
+  <h3>🧭 3. Policy</h3>
+  <div class="def">General statements that guide thinking or channelise energies in a particular direction.</div>
+  <ul class="k">
+    <li><b>Role</b> <span class="d">— interprets strategy; general response to a problem; manager uses discretion</span></li>
+    <li><b>Major vs minor</b> <span class="d">— Major: for all to know (customers, competitors) · Minor: insiders, minute details</span></li>
+    <li><b>Purchase policy</b> <span class="d">— make or buy? how to select vendors? how many suppliers? criteria?</span></li>
+  </ul>
+
+  <h3>📋 4. Procedure</h3>
+  <div class="def">Routine steps on how to carry out activities, in chronological order.</div>
+  <ul class="k">
+    <li><b>Nature</b> <span class="d">— exact manner of work; for insiders; enforces a policy; works within the policy framework</span></li>
+    <li><b>Example</b> <span class="d">— requisitioning supplies before production; reporting progress in production</span></li>
+  </ul>
+
+  <h3>🛠️ 5. Method</h3>
+  <div class="def">Prescribed manner in which a task (ONE step of a procedure) is to be performed.</div>
+  <ul class="k">
+    <li><b>Nature</b> <span class="d">— varies task to task; right method saves time, money, effort → efficiency</span></li>
+    <li><b>Example</b> <span class="d">— training: lectures & seminars for top level, on-the-job for supervisors</span></li>
+  </ul>
+
+  <h3>🚫 6. Rule</h3>
+  <div class="def">Specific statement of what must or must not be done; no flexibility or discretion.</div>
+  <ul class="k">
+    <li><b>Nature</b> <span class="d">— simplest plan; no compromise; changes only by a policy decision</span></li>
+    <li><b>Why a plan?</b> <span class="d">— decided in advance & guides action = deciding in advance what to do</span></li>
+  </ul>
+
+  <h3>📦 7. Programme</h3>
+  <div class="def">Detailed statement about a project: objectives, policies, procedures, rules, tasks, human & physical resources, and budget.</div>
+  <div class="grid2">
+    <div class="box"><b>Scope</b><span class="d">Entire gamut of activities; minutest details within the policy framework</span></div>
+    <div class="box"><b>vs Project</b><span class="d">Similar, but differ in scope & complexity</span></div>
+  </div>
+
+  <h3>💰 8. Budget</h3>
+  <div class="def">Statement of expected results in numerical terms; quantifies future facts & figures.</div>
+  <ul class="k">
+    <li><b>Examples</b> <span class="d">— sales budget (sales per product per area per month); workers needed at peak production</span></li>
+    <li><b>Also a control device</b> <span class="d">— compare actual vs expected figures, then correct (but involves forecasting → it's a plan)</span></li>
+    <li><b>Cash budget</b> <span class="d">— Inflows − Outflows = Surplus / Deficiency; avoid excess cash (little or no return)</span></li>
+  </ul>
+  <div class="hook">🔑 Chain: <b>Strategy → Policy → Procedure → Method</b> <span class="d">(policy interprets strategy · procedure enforces policy · method = one step of a procedure)</span></div>
+</section>
+
+<!-- 8 WHICH PLAN -->
+<section class="card" id="which" style="--c:#16a34a">
+  <h2><span class="num">8</span>Compare & Which Plan?</h2>
+
+  <h3>⚖️ Policy · Procedure · Method · Rule</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Policy</th><th>Procedure</th><th>Method</th><th>Rule</th></tr>
+    <tr><td>Meaning</td><td><span class="d">General guide to thinking</span></td><td><span class="d">Chronological steps</span></td><td><span class="d">Manner of doing one task</span></td><td><span class="d">What must / must not be done</span></td></tr>
+    <tr><td>Flexibility</td><td><span class="d">Discretion allowed</span></td><td><span class="d">Fixed sequence</span></td><td><span class="d">Varies task to task</span></td><td><span class="d">None</span></td></tr>
+    <tr><td>Link</td><td><span class="d">Interprets strategy</span></td><td><span class="d">Enforces policy</span></td><td><span class="d">One step of a procedure</span></td><td><span class="d">Changes only by policy decision</span></td></tr>
+    <tr><td>Example</td><td><span class="d">Purchase / admission policy</span></td><td><span class="d">Requisitioning supplies</span></td><td><span class="d">Training methods</span></td><td><span class="d">Report for work on time</span></td></tr>
+  </table></div>
+
+  <h3>🗂️ All 8 at a Glance</h3>
+  <div class="tw"><table>
+    <tr><th>Plan</th><th>One-liner</th><th>Type</th></tr>
+    <tr><td>Objective</td><td><span class="d">End result wanted</span></td><td><span class="d">Neither</span></td></tr>
+    <tr><td>Strategy</td><td><span class="d">Long-run direction & resources</span></td><td><span class="d">Neither</span></td></tr>
+    <tr><td>Policy</td><td><span class="d">General guide</span></td><td><span class="d">Standing</span></td></tr>
+    <tr><td>Procedure</td><td><span class="d">Steps in order</span></td><td><span class="d">Standing</span></td></tr>
+    <tr><td>Method</td><td><span class="d">How to do one step</span></td><td><span class="d">Standing</span></td></tr>
+    <tr><td>Rule</td><td><span class="d">Must / must not, no discretion</span></td><td><span class="d">Standing</span></td></tr>
+    <tr><td>Programme</td><td><span class="d">Full project blueprint</span></td><td><span class="d">Single-use</span></td></tr>
+    <tr><td>Budget</td><td><span class="d">Plan in numbers</span></td><td><span class="d">Single-use</span></td></tr>
+  </table></div>
+
+  <h3>🎯 Which Plan?</h3>
+  <div class="tw"><table>
+    <tr><th>Situation</th><th>Plan</th></tr>
+    <tr><td>Increase market share from 10% to 25% by next year</td><td><span class="d">Objective</span></td></tr>
+    <tr><td>Airtel doubles data on ₹149 plan to counter Jio</td><td><span class="d">Strategy (3 dimensions: long-term objectives, course of action, resources)</span></td></tr>
+    <tr><td>Mitticool keeps all products affordable for the poor</td><td><span class="d">Policy</span></td></tr>
+    <tr><td>Mitticool plans a factory + eco-friendly clay house</td><td><span class="d">Objective (future plan)</span></td></tr>
+    <tr><td>Steps to requisition supplies before production</td><td><span class="d">Procedure</span></td></tr>
+    <tr><td>Plan based on research, for physical & technical tasks</td><td><span class="d">Method (Standing)</span></td></tr>
+    <tr><td>Rama Stationery: all payments by e-transfer only</td><td><span class="d">Rule (no discretion: "only"); some guides say Policy</span></td></tr>
+    <tr><td>All details for opening a new department</td><td><span class="d">Programme</span></td></tr>
+    <tr><td>Plan that also serves as a controlling device</td><td><span class="d">Budget (Single-use)</span></td></tr>
+  </table></div>
+</section>
+
+</main>
+
+<button id="t">🧠 Test Me</button>
+
+<script>
+  const btn = document.getElementById('t');
+  btn.onclick = () => {
+    document.body.classList.toggle('recall');
+    document.querySelectorAll('.d.show').forEach(e => e.classList.remove('show'));
+    btn.textContent = document.body.classList.contains('recall') ? '👁 Show All' : '🧠 Test Me';
+  };
+  document.addEventListener('click', e => {
+    const d = e.target.closest('.d');
+    if (d && document.body.classList.contains('recall')) d.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

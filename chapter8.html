@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 8 · Controlling</title>
+<style>
+  :root{--ink:#1d2433;--mute:#5b6577;--bg:#f4f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px}
+  header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:18px 16px 14px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:4px 0 0;opacity:.9;font-size:13px}
+  .chaps{display:flex;gap:6px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
+  .chaps::-webkit-scrollbar{display:none}
+  .chaps a{flex:none;text-decoration:none;color:#fff;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+  .chaps a.on{background:#fff;color:#4f46e5}
+  nav{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:6px;overflow-x:auto;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,.07);scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none;text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600}
+  main{max-width:720px;margin:auto;padding:4px 12px 90px}
+  .card{background:#fff;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:5px solid var(--c);scroll-margin-top:56px}
+  h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .num{background:var(--c);color:#fff;border-radius:8px;min-width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+  h3{font-size:14px;margin:14px 0 6px;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+  .def{background:#f1f5ff;border-radius:10px;padding:10px 12px;font-weight:600}
+  .def small{display:block;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
+  .mn{background:#fff7ed;border:1px dashed #fb923c;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+  .mn u{text-decoration:none;color:#ea580c;font-weight:800;font-size:16px}
+  ul.k{list-style:none;padding:0;margin:0}
+  ul.k li{padding:8px 0;border-bottom:1px solid #eef0f4}
+  ul.k li:last-child{border-bottom:none}
+  ul.k b{color:var(--c)}
+  .d{color:var(--mute);transition:filter .2s}
+  body.recall .d{filter:blur(5px);cursor:pointer;user-select:none}
+  body.recall .d.show{filter:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+  .full{grid-column:1/-1}
+  .box{border-radius:10px;padding:10px;background:#f8fafc;font-size:14px}
+  .box b{display:block;font-size:15px;margin-bottom:2px}
+  .y{color:#16a34a;font-weight:800}
+  .n{color:#dc2626;font-weight:800}
+  .p{color:#d97706;font-weight:800}
+  .legend{font-size:13px;color:var(--mute);margin-bottom:4px}
+  .row{display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:14px}
+  .tag{flex:none;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;margin-top:1px}
+  .tag.r{background:#f3e8ff;color:#7e22ce}
+  .tag.m{background:#dcfce7;color:#15803d}
+  .verdict{font-weight:700;background:#faf5ff;border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+  .flow{display:flex;flex-wrap:wrap;gap:6px}
+  .step{flex:1 1 45%;min-width:140px;background:#f0fdfa;border-radius:10px;padding:8px 10px;font-size:14px}
+  .step b{color:#0d9488;font-size:16px}
+  .hook{background:#ecfdf5;border-radius:8px;padding:6px 10px;font-size:14px;margin-top:8px}
+  .tw{overflow-x:auto;margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td,th{padding:6px 5px;border-bottom:1px solid #eef0f4;text-align:left;vertical-align:top}
+  th{background:#f8fafc;color:var(--c)}
+  td:first-child{font-weight:700}
+  .chart{text-align:center;margin:10px 0}
+  .chart .top{display:inline-block;background:var(--c);color:#fff;border-radius:8px;padding:5px 12px;font-weight:700;font-size:13px}
+  .chart .line{width:2px;height:10px;background:#cbd5e1;margin:0 auto}
+  .chart .kids{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;border-top:2px solid #cbd5e1;padding-top:8px}
+  .chart .kids span{background:#f1f5f9;border-radius:6px;padding:4px 7px;font-size:12px;font-weight:600}
+  .chart .kids span.hi{background:var(--c);color:#fff}
+  .chart .lab{font-size:11px;color:var(--mute);margin:6px 0 2px}
+  #t{position:fixed;right:14px;bottom:16px;z-index:9;border:none;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;color:#fff;background:#111827;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  @media(max-width:420px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ch 8 · Controlling</h1>
+  <p>Tap 🧠 Test Me to hide answers → tap blurred text to reveal</p>
+  <!--
+    CHAPTER FILE NAMES (keep all files in the same folder):
+    Ch 1 = index.html
+    Ch 2 = chapter2.html   Ch 3 = chapter3.html   Ch 4 = chapter4.html
+    Ch 5 = chapter5.html   Ch 6 = chapter6.html   Ch 7 = chapter7.html
+    Ch 8 = chapter8.html
+    In each file, put class="on" on that chapter's own button.
+  -->
+  <div class="chaps">
+    <a href="index.html">1 · Nature</a>
+    <a href="chapter2.html">2 · Principles</a>
+    <a href="chapter3.html">3 · Environment</a>
+    <a href="chapter4.html">4 · Planning</a>
+    <a href="chapter5.html">5 · Organising</a>
+    <a href="chapter6.html">6 · Staffing</a>
+    <a href="chapter7.html">7 · Directing</a>
+    <a href="chapter8.html" class="on">8 · Controlling</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#concept">Concept</a><a href="#imp">Importance</a><a href="#limits">Limitations</a><a href="#plan">Planning &amp; Control</a><a href="#process">Process</a><a href="#standards">Standards</a><a href="#dev">Deviations</a><a href="#tech">Techniques</a>
+</nav>
+
+<main>
+
+<!-- 1 CONCEPT -->
+<section class="card" id="concept" style="--c:#4f46e5">
+  <h2><span class="num">1</span>Concept</h2>
+  <div class="def">Controlling = ensuring that activities in an organisation are performed <u>as per the plans</u>, and resources are used <u>effectively</u> & <u>efficiently</u> to achieve goals.
+    <small>Koontz & O'Donnell: "Managerial control implies the measurement of accomplishment against the standard and the correction of deviations to assure attainment of objectives according to plans."</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>📍 Tracks</b><span class="d">Keeps a check on the progress of activities</span></div>
+    <div class="box"><b>✅ Ensures</b><span class="d">Activities match standards set in advance → goals achieved</span></div>
+  </div>
+
+  <h3>Features (4)</h3>
+  <div class="mn">🧠 <u>G</u>ood <u>P</u>ianists <u>P</u>ractise <u>C</u>onstantly</div>
+  <ul class="k">
+    <li><b>Goal-oriented</b> <span class="d">— ensures resources are used to achieve predetermined goals</span></li>
+    <li><b>Pervasive</b> <span class="d">— all levels (top, middle, lower) + all organisations (schools, military, hospitals, clubs, businesses)</span></li>
+    <li><b>Primary function</b> <span class="d">— of every manager</span></li>
+    <li><b>Continuous</b> <span class="d">— NOT the last function; brings the management cycle back to planning</span></li>
+  </ul>
+  <div class="hook">🔑 Controlling <b>completes one cycle</b> & <b>improves planning</b> in the next <span class="d">(finds deviations → analyses causes → corrects → better future plans)</span></div>
+  <div class="hook">📌 Departure Control System (airlines): automates check-in, boarding pass, baggage, boarding load & aircraft checks → <span class="d">manage situations & correct before damage is done</span></div>
+  <div class="hook">📌 Mr Shantanu: constant & continuous check on all activities + all employees' performance so targets are met → <span class="d">Goal-oriented · Continuous · Pervasive</span></div>
+</section>
+
+<!-- 2 IMPORTANCE -->
+<section class="card" id="imp" style="--c:#d97706">
+  <h2><span class="num">2</span>Importance (6)</h2>
+  <div class="def">Control is an indispensable function. Without it, the best of plans can go awry.</div>
+  <div class="mn">🧠 <u>A</u>ll <u>J</u>uniors <u>E</u>at <u>E</u>ggs <u>O</u>n <u>C</u>ake</div>
+  <ul class="k">
+    <li><b>Accomplishing organisational goals</b> <span class="d">— measures progress, brings deviations to light, indicates corrective action → keeps org on the right track</span></li>
+    <li><b>Judging accuracy of standards</b> <span class="d">— checks if standards are accurate & objective; reviews & revises them as the org & environment change</span></li>
+    <li><b>Efficient use of resources</b> <span class="d">— reduces wastage & spoilage; every activity done as per standards & norms</span></li>
+    <li><b>Employee motivation</b> <span class="d">— staff know in advance what is expected & how they'll be appraised → better performance</span></li>
+    <li><b>Order & discipline</b> <span class="d">— close check on activities → minimises dishonest behaviour</span></li>
+    <li><b>Coordination in action</b> <span class="d">— every dept & employee follows predetermined standards that are coordinated with each other</span></li>
+  </ul>
+  <div class="hook">📌 NY import-export firm logs suspects' keystrokes → <span class="d">2 employees caught embezzling $3 million = Order & discipline</span></div>
+  <div class="hook">📌 M Ltd: missed sales & customer-satisfaction targets, new rivals with better tech & pricing → benefits of good control = <span class="d">the 6 points above</span></div>
+</section>
+
+<!-- 3 LIMITATIONS -->
+<section class="card" id="limits" style="--c:#e11d48">
+  <h2><span class="num">3</span>Limitations (4)</h2>
+  <div class="mn">🧠 <u>D</u>on't <u>L</u>eave <u>R</u>ice <u>C</u>old</div>
+  <ul class="k">
+    <li><b>Difficulty in setting quantitative standards</b> <span class="d">— morale, job satisfaction & human behaviour are hard to measure → control loses effectiveness</span></li>
+    <li><b>Little control on external factors</b> <span class="d">— govt policies, technological changes, competition</span></li>
+    <li><b>Resistance from employees</b> <span class="d">— seen as a restriction on freedom (e.g. objecting to CCTV watch)</span></li>
+    <li><b>Costly affair</b> <span class="d">— expenditure, time & effort; small firms can't afford it; cost must not exceed benefits</span></li>
+  </ul>
+  <div class="hook">📌 When does a control system lose effectiveness? → <span class="d">when standards can't be defined in quantitative terms</span></div>
+</section>
+
+<!-- 4 PLANNING & CONTROLLING -->
+<section class="card" id="plan" style="--c:#0891b2">
+  <h2><span class="num">4</span>Planning & Controlling</h2>
+  <div class="def">Planning & controlling are <u>inseparable twins</u> of management.
+    <small>Planning initiates the management process; controlling completes it.</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>📋 Planning without controlling</b><span class="d">= Meaningless</span></div>
+    <div class="box"><b>🙈 Controlling without planning</b><span class="d">= Blind (no standards → nothing to control)</span></div>
+  </div>
+  <div class="hook">🔑 Planning is a <b>prerequisite</b> for controlling → <span class="d">it provides the standards control measures against</span></div>
+
+  <h3>⚖️ Comparison</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Planning</th><th>Controlling</th></tr>
+    <tr><td>Role in cycle</td><td><span class="d">Initiates the process</span></td><td><span class="d">Completes the cycle, feeds the next plan</span></td></tr>
+    <tr><td>Nature</td><td><span class="d">Prescriptive (prescribes course of action)</span></td><td><span class="d">Evaluative (checks if decisions became action)</span></td></tr>
+    <tr><td>Process</td><td><span class="d">Intellectual: thinking, articulation, analysis</span></td><td><span class="d">Checking, measuring, correcting</span></td></tr>
+    <tr><td>Seeks</td><td><span class="d">Consistent, integrated, articulated programmes</span></td><td><span class="d">To compel events to conform to plans</span></td></tr>
+    <tr><td>Direction</td><td><span class="d">Forward-looking (forecasts)</span></td><td><span class="d">Backward-looking (postmortem of past)</span></td></tr>
+    <tr><td>Gives</td><td><span class="d">Standards</span></td><td><span class="d">Feedback from past experience</span></td></tr>
+  </table></div>
+
+  <h3>💬 "Planning looks ahead, controlling looks back": comment</h3>
+  <div class="grid2">
+    <div class="box"><b>✅ True because</b><span class="d">Plans are for the future, based on forecasts · Control is a postmortem of past activities to find deviations</span></div>
+    <div class="box"><b>❌ But also</b><span class="d">Planning is guided by past experience · Corrective action aims to improve future performance</span></div>
+  </div>
+  <div class="verdict">◐ <span class="d">Only PARTIALLY correct: both are backward-looking AND forward-looking</span></div>
+
+  <h3>They reinforce each other (2)</h3>
+  <ul class="k">
+    <li><b>1. Planning based on facts</b> <span class="d">→ makes controlling easier & effective</span></li>
+    <li><b>2. Controlling</b> <span class="d">→ improves future planning with info from past experience</span></li>
+  </ul>
+  <div class="hook">📌 M Ltd: relate planning with control → <span class="d">set clear sales & satisfaction targets (standards) → monitor & compare → feed results back to revise plans for new competition</span></div>
+</section>
+
+<!-- 5 PROCESS -->
+<section class="card" id="process" style="--c:#0d9488">
+  <h2><span class="num">5</span>Controlling Process (5 Steps)</h2>
+  <div class="mn">🧠 <u>S</u>ome <u>M</u>onkeys <u>C</u>an <u>A</u>ctually <u>C</u>ook</div>
+  <div class="flow">
+    <div class="step"><b>1. S</b>etting performance standards<br><span class="d">Criteria/benchmarks to measure actual performance against</span></div>
+    <div class="step"><b>2. M</b>easuring actual performance<br><span class="d">Objective & reliable; same units as standards</span></div>
+    <div class="step"><b>3. C</b>omparing actual with standards<br><span class="d">Reveals the deviation between actual & desired results</span></div>
+    <div class="step"><b>4. A</b>nalysing deviations<br><span class="d">Set acceptable range; find exact causes; use critical point control & MBE</span></div>
+    <div class="step"><b>5. C</b>orrective action<br><span class="d">Only when deviation exceeds acceptable range, so it doesn't recur</span></div>
+  </div>
+  <div class="hook">↻ Step 5 feeds back into <b>planning</b> → <span class="d">the cycle starts again</span></div>
+  <div class="hook">📌 Deviation → <span class="d">term for the difference between standard & actual performance</span></div>
+</section>
+
+<!-- 6 STANDARDS & MEASUREMENT -->
+<section class="card" id="standards" style="--c:#9333ea">
+  <h2><span class="num">6</span>Standards, Measurement & Comparison</h2>
+
+  <h3>🎯 Step 1: Standards</h3>
+  <div class="grid2">
+    <div class="box"><b>🔢 Quantitative</b><span class="d">Cost to be incurred, revenue to be earned, units produced & sold, time per task</span></div>
+    <div class="box"><b>💭 Qualitative</b><span class="d">Improving goodwill, employee motivation level</span></div>
+    <div class="box full"><b>📐 Best practice</b><span class="d">Set precise quantitative standards → easier comparison (defects 10 → 5 per 1,000 by quarter end). Define qualitative ones in measurable terms</span></div>
+    <div class="box full"><b>🔄 Flexible</b><span class="d">Modify standards as the internal & external environment changes to keep them realistic</span></div>
+  </div>
+  <div class="hook">📌 Self-service fast food: customer satisfaction (qualitative) → <span class="d">measured as time to get a table, place the order & collect it</span></div>
+
+  <h3>Standards by Functional Area</h3>
+  <div class="tw"><table>
+    <tr><th>Area</th><th>Standards</th></tr>
+    <tr><td>🏭 Production</td><td><span class="d">Quantity · Quality · Cost · Individual job performance</span></td></tr>
+    <tr><td>📣 Marketing</td><td><span class="d">Sales volume · Sales expense · Advertising expenditure · Individual salesperson's performance</span></td></tr>
+    <tr><td>👥 HRM</td><td><span class="d">Labour relations · Labour turnover · Labour absenteeism</span></td></tr>
+    <tr><td>💰 Finance & Accounting</td><td><span class="d">Capital expenditure · Inventories · Flow of capital · Liquidity</span></td></tr>
+  </table></div>
+
+  <h3>📏 Step 2: Measurement</h3>
+  <div class="mn">🧠 Techniques: <u>P</u>lease <u>S</u>top <u>P</u>ushing → Personal observation · Sample checking · Performance reports</div>
+  <ul class="k">
+    <li><b>When</b> <span class="d">— during performance where possible (check each part before assembly; continuously monitor gas particles in the air for safety)</span></li>
+    <li><b>Employee</b> <span class="d">— performance report by superior</span></li>
+    <li><b>Company</b> <span class="d">— ratios at intervals: gross profit ratio, net profit ratio, ROI</span></li>
+    <li><b>Marketing</b> <span class="d">— units sold, increase in market share</span></li>
+    <li><b>Production</b> <span class="d">— pieces produced, defective pieces per batch</span></li>
+  </ul>
+  <div class="grid2">
+    <div class="box"><b>🏠 Small organisation</b><span class="d">Every piece checked for quality</span></div>
+    <div class="box"><b>🏢 Large organisation</b><span class="d">Sample checking: random pieces checked</span></div>
+  </div>
+
+  <h3>⚖️ Step 3: Comparison</h3>
+  <div class="hook">Reveals deviation · easiest with quantitative standards → <span class="d">worker's units per week vs standard weekly output</span></div>
+</section>
+
+<!-- 7 DEVIATIONS -->
+<section class="card" id="dev" style="--c:#2563eb">
+  <h2><span class="num">7</span>Deviations & Corrective Action</h2>
+  <div class="hook">🔑 Some deviation is expected in all activities → <span class="d">decide the acceptable range; key areas get urgent attention</span></div>
+
+  <h3>🎯 Critical Point Control</h3>
+  <div class="def">Focus control on Key Result Areas (KRAs), the points critical to success.
+    <small>Checking every activity is neither economical nor easy. If a critical point goes wrong, the whole organisation suffers.</small>
+  </div>
+  <div class="hook">📌 Manufacturing: <span class="d">5% rise in labour cost is more troublesome than 15% rise in postal charges</span></div>
+
+  <h3>🚨 Management by Exception</h3>
+  <div class="def">Only significant deviations beyond the permissible limit are brought to management's notice.
+    <small>Also called control by exception. Belief: "An attempt to control everything results in controlling nothing."</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>Within 2% labour cost rise</b><span class="d">Acceptable: not reported</span></div>
+    <div class="box"><b>Major (say 5%)</b><span class="d">Immediate action on priority basis</span></div>
+  </div>
+  <div class="mn">✅ Advantages (4): <u>S</u>harks <u>F</u>ind <u>D</u>eep <u>I</u>slands</div>
+  <ul class="k">
+    <li><b>Saves time & effort</b> <span class="d">— managers handle only significant deviations</span></li>
+    <li><b>Focus on important areas</b> <span class="d">— better use of managerial talent</span></li>
+    <li><b>Delegation & morale</b> <span class="d">— routine problems left to subordinates</span></li>
+    <li><b>Identifies critical problems</b> <span class="d">— that need timely action</span></li>
+  </ul>
+  <div class="hook">📌 Writewell: Bhanu Prasad 10 units short for 2 days; Arfaaz wants him fired → <span class="d">Management by Exception: minor deviation, shouldn't reach the CEO; no termination</span></div>
+
+  <h3>🔍 Causes of Deviations (6)</h3>
+  <div class="mn">🧠 <u>U</u>ncle <u>D</u>ave <u>I</u>s <u>S</u>o <u>O</u>verly <u>E</u>xcited</div>
+  <ul class="k">
+    <li><b>Unrealistic standards</b></li>
+    <li><b>Defective process</b></li>
+    <li><b>Inadequacy of resources</b></li>
+    <li><b>Structural drawbacks</b></li>
+    <li><b>Organisational constraints</b></li>
+    <li><b>Environmental factors</b> <span class="d">— beyond the organisation's control</span></li>
+  </ul>
+  <div class="hook">🔑 Find the EXACT cause → <span class="d">otherwise correct action isn't possible; report & act at the appropriate level</span></div>
+
+  <h3>🛠️ Step 5: Corrective Action</h3>
+  <ul class="k">
+    <li><b>Within limits</b> <span class="d">— no action needed</span></li>
+    <li><b>Production target missed</b> <span class="d">— train employees</span></li>
+    <li><b>Project behind schedule</b> <span class="d">— extra workers & equipment + overtime</span></li>
+    <li><b>Can't be corrected</b> <span class="d">— revise the standards</span></li>
+  </ul>
+  <div class="tw"><table>
+    <tr><th>Cause <small>(older NCERT table)</small></th><th>Corrective Action</th></tr>
+    <tr><td>Defective material</td><td><span class="d">Change quality specification of material</span></td></tr>
+    <tr><td>Defective machinery</td><td><span class="d">Repair or replace it</span></td></tr>
+    <tr><td>Obsolete machinery</td><td><span class="d">Technological upgradation</span></td></tr>
+    <tr><td>Defective process</td><td><span class="d">Modify the process</span></td></tr>
+    <tr><td>Poor physical work conditions</td><td><span class="d">Improve the conditions</span></td></tr>
+    <tr><td>Inadequate training</td><td><span class="d">Special training programmes</span></td></tr>
+  </table></div>
+</section>
+
+<!-- 8 TECHNIQUES -->
+<section class="card" id="tech" style="--c:#16a34a">
+  <h2><span class="num">8</span>Techniques of Control</h2>
+  <div class="hook">📝 Named only in the book's summary & exercises; not explained in the text → <span class="d">check with your teacher if they're in your syllabus</span></div>
+  <div class="chart">
+    <div class="top">Techniques</div><div class="line"></div>
+    <div class="kids"><span class="hi">🕰️ Traditional (4)</span><span class="hi">🚀 Modern (6)</span></div>
+  </div>
+
+  <h3>🕰️ Traditional (4)</h3>
+  <div class="mn">🧠 <u>P</u>enguins <u>S</u>lide <u>B</u>y <u>B</u>oats</div>
+  <ul class="k">
+    <li><b>Personal observation</b> <span class="d">— first-hand info, psychological pressure to perform ✗ time-consuming</span></li>
+    <li><b>Statistical reports</b> <span class="d">— averages, percentages, ratios, charts → easy comparison</span></li>
+    <li><b>Breakeven analysis</b> <span class="d">— volume where total revenue = total cost (no profit, no loss); BEP = Fixed cost ÷ (Price − Variable cost per unit)</span></li>
+    <li><b>Budgetary control</b> <span class="d">— budgets act as standards; compare actual vs budget & correct</span></li>
+  </ul>
+
+  <h3>🚀 Modern (6)</h3>
+  <div class="mn">🧠 <u>R</u>abbits <u>R</u>un <u>R</u>apidly; <u>M</u>onkeys <u>P</u>lay <u>M</u>usically</div>
+  <ul class="k">
+    <li><b>Return on Investment</b> <span class="d">— net income ÷ total investment; checks efficient use of capital</span></li>
+    <li><b>Ratio analysis</b> <span class="d">— liquidity, solvency, profitability, turnover ratios</span></li>
+    <li><b>Responsibility accounting</b> <span class="d">— divisions as centres (cost, revenue, profit, investment), each head accountable</span></li>
+    <li><b>Management audit</b> <span class="d">— systematic appraisal of management's overall performance; finds deficiencies, keeps mgmt updated, improves control & coordination</span></li>
+    <li><b>PERT & CPM</b> <span class="d">— network techniques to plan, schedule & control time-bound projects; critical path = longest path</span></li>
+    <li><b>Management Information System</b> <span class="d">— computer-based system giving managers timely info for decisions & control</span></li>
+  </ul>
+</section>
+
+</main>
+
+<button id="t">🧠 Test Me</button>
+
+<script>
+  const btn = document.getElementById('t');
+  btn.onclick = () => {
+    document.body.classList.toggle('recall');
+    document.querySelectorAll('.d.show').forEach(e => e.classList.remove('show'));
+    btn.textContent = document.body.classList.contains('recall') ? '👁 Show All' : '🧠 Test Me';
+  };
+  document.addEventListener('click', e => {
+    const d = e.target.closest('.d');
+    if (d && document.body.classList.contains('recall')) d.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

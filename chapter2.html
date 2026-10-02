@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 2 · Principles of Management</title>
+<style>
+  :root{--ink:#1d2433;--mute:#5b6577;--bg:#f4f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px}
+  header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:18px 16px 14px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:4px 0 0;opacity:.9;font-size:13px}
+  .chaps{display:flex;gap:6px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
+  .chaps::-webkit-scrollbar{display:none}
+  .chaps a{flex:none;text-decoration:none;color:#fff;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+  .chaps a.on{background:#fff;color:#4f46e5}
+  nav{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:6px;overflow-x:auto;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,.07);scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none;text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600}
+  main{max-width:720px;margin:auto;padding:4px 12px 90px}
+  .card{background:#fff;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:5px solid var(--c);scroll-margin-top:56px}
+  h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .num{background:var(--c);color:#fff;border-radius:8px;min-width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+  h3{font-size:14px;margin:14px 0 6px;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+  .def{background:#f1f5ff;border-radius:10px;padding:10px 12px;font-weight:600}
+  .def small{display:block;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
+  .mn{background:#fff7ed;border:1px dashed #fb923c;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+  .mn u{text-decoration:none;color:#ea580c;font-weight:800;font-size:16px}
+  ul.k{list-style:none;padding:0;margin:0}
+  ul.k li{padding:8px 0;border-bottom:1px solid #eef0f4}
+  ul.k li:last-child{border-bottom:none}
+  ul.k b{color:var(--c)}
+  .d{color:var(--mute);transition:filter .2s}
+  body.recall .d{filter:blur(5px);cursor:pointer;user-select:none}
+  body.recall .d.show{filter:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+  .full{grid-column:1/-1}
+  .box{border-radius:10px;padding:10px;background:#f8fafc;font-size:14px}
+  .box b{display:block;font-size:15px;margin-bottom:2px}
+  .y{color:#16a34a;font-weight:800}
+  .n{color:#dc2626;font-weight:800}
+  .p{color:#d97706;font-weight:800}
+  .legend{font-size:13px;color:var(--mute);margin-bottom:4px}
+  .row{display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:14px}
+  .tag{flex:none;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;margin-top:1px}
+  .tag.r{background:#f3e8ff;color:#7e22ce}
+  .tag.m{background:#dcfce7;color:#15803d}
+  .verdict{font-weight:700;background:#faf5ff;border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+  .flow{display:flex;flex-wrap:wrap;gap:6px}
+  .step{flex:1 1 45%;min-width:140px;background:#f0fdfa;border-radius:10px;padding:8px 10px;font-size:14px}
+  .step b{color:#0d9488;font-size:16px}
+  .hook{background:#ecfdf5;border-radius:8px;padding:6px 10px;font-size:14px;margin-top:8px}
+  .tw{overflow-x:auto;margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td,th{padding:6px 5px;border-bottom:1px solid #eef0f4;text-align:left;vertical-align:top}
+  th{background:#f8fafc;color:var(--c)}
+  td:first-child{font-weight:700}
+  .chart{text-align:center;margin:10px 0}
+  .chart .top{display:inline-block;background:var(--c);color:#fff;border-radius:8px;padding:5px 12px;font-weight:700;font-size:13px}
+  .chart .line{width:2px;height:10px;background:#cbd5e1;margin:0 auto}
+  .chart .kids{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;border-top:2px solid #cbd5e1;padding-top:8px}
+  .chart .kids span{background:#f1f5f9;border-radius:6px;padding:4px 7px;font-size:12px;font-weight:600}
+  .chart .kids span.hi{background:var(--c);color:#fff}
+  .chart .lab{font-size:11px;color:var(--mute);margin:6px 0 2px}
+  #t{position:fixed;right:14px;bottom:16px;z-index:9;border:none;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;color:#fff;background:#111827;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  @media(max-width:420px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ch 2 · Principles of Management</h1>
+  <p>Tap 🧠 Test Me to hide answers → tap blurred text to reveal</p>
+  <!--
+    CHAPTER FILE NAMES (keep all files in the same folder):
+    Ch 1 = index.html
+    Ch 2 = chapter2.html   Ch 3 = chapter3.html   Ch 4 = chapter4.html
+    Ch 5 = chapter5.html   Ch 6 = chapter6.html   Ch 7 = chapter7.html
+    Ch 8 = chapter8.html
+    In each file, put class="on" on that chapter's own button.
+  -->
+  <div class="chaps">
+    <a href="index.html">1 · Nature</a>
+    <a href="chapter2.html" class="on">2 · Principles</a>
+    <a href="chapter3.html">3 · Environment</a>
+    <a href="chapter4.html">4 · Planning</a>
+    <a href="chapter5.html">5 · Organising</a>
+    <a href="chapter6.html">6 · Staffing</a>
+    <a href="chapter7.html">7 · Directing</a>
+    <a href="chapter8.html">8 · Controlling</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#concept">Concept</a><a href="#nature">Nature</a><a href="#sig">Significance</a><a href="#taylor">Taylor</a><a href="#tech">Techniques</a><a href="#study">Work Study</a><a href="#fayol">Fayol</a><a href="#fourteen">14 Principles</a><a href="#vs">Fayol vs Taylor</a>
+</nav>
+
+<main>
+
+<!-- 1 CONCEPT -->
+<section class="card" id="concept" style="--c:#4f46e5">
+  <h2><span class="num">1</span>Concept</h2>
+  <div class="def">Principle of management = a <u>broad</u> & <u>general guideline</u> for <u>decision-making</u> & <u>behaviour</u>.
+    <small>e.g. For promotion, one manager follows seniority, another follows merit.</small>
+  </div>
+  <div class="grid2">
+    <div class="box full"><b>🔬 vs Pure Science</b><span class="d">NOT rigid: deal with human behaviour → applied creatively; must keep pace with changing behaviour & technology (ICT lets managers run global empires: Infosys)</span></div>
+  </div>
+
+  <h3>Principles · Techniques · Values</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Principles</th><th>Techniques</th><th>Values</th></tr>
+    <tr><td>Meaning</td><td><span class="d">Guidelines for decisions/actions while practising techniques</span></td><td><span class="d">Procedures/methods: a series of steps to reach goals</span></td><td><span class="d">What is acceptable or desirable</span></td></tr>
+    <tr><td>Nature</td><td><span class="d">Basic truths; technical</span></td><td><span class="d">Step-by-step methods</span></td><td><span class="d">Moral connotations</span></td></tr>
+    <tr><td>Formed by</td><td><span class="d">Research in work situations</span></td><td><span class="d">Designed to accomplish goals</span></td><td><span class="d">Common practice in society</span></td></tr>
+  </table></div>
+  <div class="hook">🔑 Values can't be ignored while applying principles → <span class="d">business has social & ethical responsibilities</span></div>
+
+  <h3>Evolution of Management Thought (6 phases)</h3>
+  <div class="mn">🧠 <u>E</u>very <u>C</u>lass <u>N</u>eeds <u>B</u>etter <u>M</u>ath <u>M</u>ethods</div>
+  <ul class="k">
+    <li><b>Early perspectives</b> <span class="d">— 3000–4000 BC; Egyptian pyramid (100,000 men, 20 years)</span></li>
+    <li><b>Classical</b> <span class="d">— Taylor (scientific mgmt), Fayol (administrative), Max Weber (bureaucracy)</span></li>
+    <li><b>Neo-classical: Human Relations</b> <span class="d">— 1920s–50s; social needs matter; Hawthorne Studies</span></li>
+    <li><b>Behavioural Science</b> <span class="d">— Argyris, McGregor, Maslow, Herzberg; organisational humanism</span></li>
+    <li><b>Management Science / OR</b> <span class="d">— quantitative techniques for decisions</span></li>
+    <li><b>Modern</b> <span class="d">— organisations as complex systems; contingency approach</span></li>
+  </ul>
+</section>
+
+<!-- 2 NATURE -->
+<section class="card" id="nature" style="--c:#0891b2">
+  <h2><span class="num">2</span>Nature (7)</h2>
+  <div class="mn">🧠 <u>U</u>gly <u>G</u>oats <u>F</u>ind <u>F</u>resh <u>B</u>ananas & <u>C</u>runchy <u>C</u>arrots</div>
+  <ul class="k">
+    <li><b>Universal applicability</b> <span class="d">— all orgs: business/non-business, small/large, public/private, manufacturing/services; extent varies (division of work in a govt office AND a company)</span></li>
+    <li><b>General guidelines</b> <span class="d">— no readymade, straitjacket solutions (dept conflict → stress overall org goals)</span></li>
+    <li><b>Formed by practice & experimentation</b> <span class="d">— experience + collective wisdom (discipline) + experiments (fatigue: improve physical conditions)</span></li>
+    <li><b>Flexible</b> <span class="d">— modified as situation demands; like tools for different purposes (degree of centralisation)</span></li>
+    <li><b>Behavioural</b> (mainly) <span class="d">— aim to influence human behaviour; also link human & material resources (factory layout)</span></li>
+    <li><b>Cause & effect</b> <span class="d">— predict likely effect; less than perfect (humans). Emergency → one takes charge; new factory → participative</span></li>
+    <li><b>Contingent</b> <span class="d">— depend on the situation (fair pay depends on contribution, paying capacity, prevailing wage rate)</span></li>
+  </ul>
+  <div class="hook">🔑 Derivation of principles = <b>Science</b> · Creative application = <b>Art</b> → <span class="d">makes management learnable & teachable (post by qualification, not birth)</span></div>
+  <div class="hook">📌 Innovation at Toyota & Biocon (Kiran Mazumdar-Shaw) → <span class="d">principles are flexible general guidelines, applied creatively</span></div>
+</section>
+
+<!-- 3 SIGNIFICANCE -->
+<section class="card" id="sig" style="--c:#d97706">
+  <h2><span class="num">3</span>Significance (6)</h2>
+  <div class="mn">🧠 <u>I</u> <u>O</u>nly <u>S</u>ing <u>M</u>elodies <u>S</u>o <u>T</u>enderly</div>
+  <ul class="k">
+    <li><b>Insights into reality</b> <span class="d">— more knowledge; learn from past mistakes; solve recurring problems fast → efficiency (delegate routine decisions)</span></li>
+    <li><b>Optimum utilisation of resources & effective administration</b> <span class="d">— max benefit, min cost; no trial-and-error waste; limits managerial discretion → no personal bias (budgets based on contribution to org goals)</span></li>
+    <li><b>Scientific decisions</b> <span class="d">— based on facts & logic, not blind faith; timely, realistic, measurable, unbiased</span></li>
+    <li><b>Meeting changing environment</b> <span class="d">— principles get modified (division of work → core competency: HLL sold chemicals & seeds; outsourcing, BPO, KPO)</span></li>
+    <li><b>Social responsibility</b> <span class="d">— "equity" now covers customers, environment, business associates (BHEL township Ranipur; Lijjat Papad)</span></li>
+    <li><b>Training, education & research</b> <span class="d">— basis of MBA/BBA & aptitude tests; led to OR, cost accounting, JIT, Kanban, Kaizen</span></li>
+  </ul>
+  <div class="hook">📝 Book summary splits these into 8 → <span class="d">"optimum utilisation" + "effective administration" listed separately, and "training" + "research" listed separately</span></div>
+  <div class="hook">📌 Lijjat Papad → <span class="d">45,000+ women; ₹80 loan → ~₹650 crore; values: business, family, devotion = social responsibility</span></div>
+</section>
+
+<!-- 4 TAYLOR -->
+<section class="card" id="taylor" style="--c:#0d9488">
+  <h2><span class="num">4</span>Taylor's Scientific Management</h2>
+  <div class="grid2">
+    <div class="box"><b>👤 F.W. Taylor</b><span class="d">American mechanical engineer (1856–1915)</span></div>
+    <div class="box"><b>👑 Title</b><span class="d">Father of Scientific Management</span></div>
+    <div class="box"><b>📖 Work</b><span class="d">"The Principles of Scientific Management" (1911); coined the term</span></div>
+    <div class="box"><b>🏭 Result</b><span class="d">Bethlehem Steel: 3× productivity</span></div>
+  </div>
+  <div class="def">Scientific management = conducting business using standardised tools, methods & trained personnel to ↑ output, ↑ quality, ↓ costs & wastes.
+    <small>Taylor: "Knowing exactly what you want men to do and seeing that they do it in the best and cheapest way."</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>👍 Rule of Thumb</b><span class="d">Personal judgment; trial & error; differs manager to manager</span></div>
+    <div class="box"><b>🔬 Scientific method</b><span class="d">Define problem → alternatives → anticipate consequences → measure → conclude</span></div>
+  </div>
+
+  <h3>Principles (5)</h3>
+  <div class="mn">🧠 <u>S</u>mart <u>H</u>eroes <u>C</u>an <u>M</u>ake <u>D</u>ifferences</div>
+  <ul class="k">
+    <li><b>Science, not rule of thumb</b> <span class="d">— find ONE best method by work-study → standardise & use it everywhere (even loading pig iron can be planned)</span></li>
+    <li><b>Harmony, not discord</b> <span class="d">— no class conflict between managers & workers; mental revolution; management shares gains, workers work hard & accept change (Japanese strikers wear black badges but work extra)</span></li>
+    <li><b>Cooperation, not individualism</b> <span class="d">— extension of harmony; competition → cooperation; reward workers' suggestions, consult them; workers avoid strikes & unreasonable demands; almost equal division of work & responsibility</span></li>
+    <li><b>Maximum, not restricted output</b> <small>(book summary)</small> <span class="d">— both sides work to maximise output & enlarge the surplus</span></li>
+    <li><b>Development of each person to greatest efficiency & prosperity</b> <span class="d">— scientific selection → work suited to abilities → training → produce more, earn more</span></li>
+  </ul>
+
+  <h3>🧠 Mental Revolution</h3>
+  <div class="def">Change in attitude of workers & management towards each other, from <u>competition</u> to <u>cooperation</u>.
+    <small>The "sum and substance" of Taylor's ideas.</small>
+  </div>
+  <div class="hook">🔑 Grow the surplus instead of fighting over it → <span class="d">management shares surplus · workers give their best · no need for agitation</span></div>
+  <div class="hook">📌 Principle that extends "Harmony, not discord" → <span class="d">Cooperation, not individualism</span></div>
+</section>
+
+<!-- 5 TECHNIQUES -->
+<section class="card" id="tech" style="--c:#9333ea">
+  <h2><span class="num">5</span>Techniques (7)</h2>
+  <div class="mn">🧠 <u>F</u>unny <u>S</u>heep <u>M</u>ake <u>M</u>any <u>T</u>iny <u>F</u>luffy <u>D</u>olls → Functional foremanship · Standardisation · Method · Motion · Time · Fatigue · Differential wage</div>
+
+  <h3>👷 Functional Foremanship</h3>
+  <div class="def">Separating planning from execution at the shop floor, using 8 specialist foremen.
+    <small>Extension of division of work & specialisation to the shop floor.</small>
+  </div>
+  <div class="chart">
+    <div class="top">Factory Manager</div><div class="line"></div>
+    <div class="kids"><span class="hi">📋 Planning Incharge</span><span class="hi">🏭 Production Incharge</span></div>
+    <div class="lab">under Planning ↓</div>
+    <div class="kids"><span>Instruction Card Clerk</span><span>Route Clerk</span><span>Time &amp; Cost Clerk</span><span>Disciplinarian</span></div>
+    <div class="lab">under Production ↓</div>
+    <div class="kids"><span>Speed Boss</span><span>Gang Boss</span><span>Repair Boss</span><span>Inspector</span></div>
+    <div class="lab">all 8 give orders to ↓</div>
+    <div class="kids"><span>👷 Worker</span></div>
+  </div>
+  <div class="mn">📋 Planning: <u>I</u> <u>R</u>eally <u>T</u>ake <u>D</u>ecisions · 🏭 Production: <u>S</u>ome <u>G</u>uys <u>R</u>epair <u>I</u>tems</div>
+  <ul class="k">
+    <li><b>Instruction card clerk</b> <span class="d">— drafts instructions for workers</span></li>
+    <li><b>Route clerk</b> <span class="d">— specifies the route (sequence) of production</span></li>
+    <li><b>Time & cost clerk</b> <span class="d">— prepares time & cost sheet</span></li>
+    <li><b>Disciplinarian</b> <span class="d">— ensures discipline</span></li>
+    <li><b>Speed boss</b> <span class="d">— timely & accurate completion of job</span></li>
+    <li><b>Gang boss</b> <span class="d">— keeps machines & tools ready for workers</span></li>
+    <li><b>Repair boss</b> <span class="d">— keeps machines & tools in proper working condition</span></li>
+    <li><b>Inspector</b> <span class="d">— checks quality of work</span></li>
+  </ul>
+  <div class="hook">🤔 Why 8? → <span class="d">no one person has all qualities of a good foreman (intelligence, education, tact, grit, judgment, special knowledge, manual dexterity, energy, honesty, health)</span></div>
+  <div class="hook">🎯 Assign by qualities → <span class="d">technical mastery, intelligence, grit → planning · energy & good health → execution</span></div>
+  <div class="hook">⚠️ Worker gets orders from 8 bosses → <span class="d">violates Fayol's Unity of Command</span></div>
+
+  <h3>📏 Standardisation & Simplification</h3>
+  <div class="grid2">
+    <div class="box"><b>Standardisation</b><span class="d">Setting standards (benchmarks) for every activity: process, raw material, time, product, machinery, methods, working conditions</span></div>
+    <div class="box"><b>Simplification</b><span class="d">Eliminating unnecessary varieties, sizes & dimensions → saves labour, machine & tool costs; lower inventory; fuller use of equipment; turnover ↑</span></div>
+  </div>
+  <div class="mn">🎯 Objectives of standardisation (4): <u>F</u>at <u>I</u>guanas <u>Q</u>uietly <u>P</u>ose</div>
+  <ul class="k">
+    <li><b>Fixed types</b> <span class="d">— reduce a line/product to fixed types, sizes & characteristics</span></li>
+    <li><b>Interchangeability</b> <span class="d">— of manufactured parts & products</span></li>
+    <li><b>Quality standards</b> <span class="d">— excellence & quality in materials</span></li>
+    <li><b>Performance standards</b> <span class="d">— of men & machines</span></li>
+  </ul>
+  <div class="hook">📌 Nokia, Toyota, Microsoft → <span class="d">large market share via standardisation & simplification</span></div>
+</section>
+
+<!-- 6 WORK STUDY & WAGES -->
+<section class="card" id="study" style="--c:#e11d48">
+  <h2><span class="num">6</span>Work Study & Wages</h2>
+  <div class="mn">🧠 Work study (4): <u>M</u>y <u>M</u>om <u>T</u>akes <u>F</u>ive → Method · Motion · Time · Fatigue</div>
+  <div class="grid2">
+    <div class="box"><b>🛤️ Method Study</b><span class="d">One best way of doing the job, from raw material to delivery; min cost, max quality & customer satisfaction. Led to the assembly line (Ford). Tools: process charts, OR</span></div>
+    <div class="box"><b>🤸 Motion Study</b><span class="d">Study movements (lifting, sitting, changing position); remove unnecessary ones. Motions = productive · incidental (going to stores) · unproductive. Bricklaying 18 → 5 motions (Gilbreth), ~4× productivity</span></div>
+    <div class="box"><b>⏱️ Time Study</b><span class="d">Standard time for a well-defined job (several readings). Aim: number of workers, incentive schemes, labour cost</span></div>
+    <div class="box"><b>😴 Fatigue Study</b><span class="d">Amount & frequency of rest intervals → regain stamina → productivity ↑</span></div>
+  </div>
+  <div class="hook">🔑 Method = <b>which way</b> · Motion = <b>which moves</b> · Time = <b>how long</b> · Fatigue = <b>how much rest</b></div>
+  <div class="hook">📌 Time study: 1 box in 20 min → <span class="d">3/hour × 7 hours (8 minus 1 hour break) = 21 boxes = standard task</span></div>
+  <div class="hook">😩 Causes of fatigue → <span class="d">long hours · unsuitable work · bad relations with boss · poor working conditions</span></div>
+
+  <h3>💰 Differential Piece Wage System</h3>
+  <div class="def">Different wage rates for workers who meet/beat the standard vs those below it, to reward efficiency.
+    <small>Standards come from work study. Taylor's tool for telling efficient workers from inefficient ones.</small>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>✅ Efficient (≥10 units @ ₹50)</b><span class="d">11 × 50 = ₹550</span></div>
+    <div class="box"><b>❌ Inefficient (&lt;10 units @ ₹40)</b><span class="d">9 × 40 = ₹360</span></div>
+  </div>
+  <div class="hook">🔑 Difference <span class="d">₹190 → motivates the inefficient worker to improve</span></div>
+  <div class="hook">📌 Schmidt (Bethlehem) → <span class="d">pig iron 12.5 → 47 tons/day; wages $1.15 → $1.85 (+60%); labourers needed 500 → 140</span></div>
+
+  <h3>🏭 Modern Sequels</h3>
+  <div class="grid2">
+    <div class="box"><b>Just In Time</b><span class="d">Cuts in-process inventory; Kanban = visual signals for replenishment</span></div>
+    <div class="box"><b>Lean</b><span class="d">Removes 7 wastes: overproduction, waiting, transport, processing, motion, inventory, scrap</span></div>
+    <div class="box"><b>Kaizen</b><span class="d">"Change for better": continuous improvement; eliminate waste</span></div>
+    <div class="box"><b>Six Sigma</b><span class="d">Data-driven; cuts quality variation; ≤ 3–4 defects per million</span></div>
+  </div>
+  <div class="hook">📌 Bhasin Ltd's revival via scientific mgmt (Mukti Consultants) → <span class="d">works only with mental revolution: worker cooperation, training & proper infrastructure</span></div>
+</section>
+
+<!-- 7 FAYOL -->
+<section class="card" id="fayol" style="--c:#2563eb">
+  <h2><span class="num">7</span>Henri Fayol</h2>
+  <div class="grid2">
+    <div class="box"><b>👤 Henri Fayol</b><span class="d">French mining engineer (1841–1925); MD of a mining company 1888–1918</span></div>
+    <div class="box"><b>👑 Title</b><span class="d">Father of General Management</span></div>
+    <div class="box full"><b>📖 Work</b><span class="d">"Administration Industrielle et Générale" (1917) → English: "General and Industrial Management" (1949). Principles are top-down & administrative, based on personal experience</span></div>
+  </div>
+
+  <h3>Functions of Management (5)</h3>
+  <div class="mn">🧠 <u>P</u>ass <u>O</u>ver <u>C</u>old <u>C</u>offee <u>C</u>ups</div>
+  <div class="hook"><span class="d">Plan · Organise · Command · Coordinate · Control</span></div>
+
+  <h3>Activities of an Industrial Undertaking (6)</h3>
+  <div class="mn">🧠 <u>T</u>om <u>C</u>an <u>F</u>ind <u>S</u>ome <u>A</u>ncient <u>M</u>aps</div>
+  <div class="hook"><span class="d">Technical · Commercial · Financial · Security · Accounting · Managerial</span></div>
+
+  <h3>Qualities of a Manager (5)</h3>
+  <div class="mn">🧠 <u>P</u>lease <u>M</u>ake <u>E</u>very <u>K</u>id <u>E</u>xcited</div>
+  <div class="hook"><span class="d">Physical · Moral · Education · Knowledge · Experience</span></div>
+</section>
+
+<!-- 8 FOURTEEN PRINCIPLES -->
+<section class="card" id="fourteen" style="--c:#16a34a">
+  <h2><span class="num">8</span>Fayol's 14 Principles</h2>
+  <div class="mn">🧠 <u>D</u>ad <u>A</u>nd <u>D</u>aughter <u>U</u>sually <u>U</u>se <u>S</u>ome <u>R</u>ed <u>C</u>rayons; <u>S</u>ister <u>O</u>nly <u>E</u>ats <u>S</u>weet <u>I</u>ce-cream <u>E</u>veryday</div>
+  <ul class="k">
+    <li><b>1. Division of work</b> <span class="d">— small tasks, each by a trained specialist → specialisation; "more and better work for the same effort"; applies to technical & managerial work (separate finance, marketing, production, HR depts)</span></li>
+    <li><b>2. Authority & responsibility</b> <span class="d">— authority = right to give orders & get obedience; responsibility = its corollary; must be balanced; safeguards against misuse; punish only after a hearing. Authority: official (position) + personal (individual)</span></li>
+    <li><b>3. Discipline</b> <span class="d">— obey org rules & employment agreement; needs good superiors, clear & fair agreements, judicious penalties (workers do unpaid overtime, management raises wages later: both honour the deal)</span></li>
+    <li><b>4. Unity of command</b> <span class="d">— one boss per employee; no dual subordination. If violated: "authority undermined, discipline in jeopardy, order disturbed, stability threatened"</span></li>
+    <li><b>5. Unity of direction</b> <span class="d">— one head + one plan for each group of activities with the same objective → unity of action & coordination</span></li>
+    <li><b>6. Subordination of individual interest to general interest</b> <span class="d">— org's interest comes before any one person's; manager sets an example (no misuse of power for family benefit)</span></li>
+    <li><b>7. Remuneration of employees</b> <span class="d">— fair to both: reasonable standard of living for staff, within company's paying capacity → just & equitable → good relations</span></li>
+    <li><b>8. Centralisation & decentralisation</b> <span class="d">— concentration vs dispersal of decision-making authority; balance needed; large orgs more decentralised (panchayats get more powers)</span></li>
+    <li><b>9. Scalar chain</b> <span class="d">— formal line of authority & communication from top to bottom; must be followed; gang plank allowed in emergencies</span></li>
+    <li><b>10. Order</b> <span class="d">— "A place for everything (everyone) and everything (everyone) in its place" → no hindrance → productivity ↑</span></li>
+    <li><b>11. Equity</b> <span class="d">— kindliness & justice; no discrimination (sex, religion, language, caste, belief, nationality); lazy staff dealt with sternly → loyalty & devotion (MNCs)</span></li>
+    <li><b>12. Stability of personnel</b> <span class="d">— minimise turnover; rigorous selection, then a minimum fixed tenure to show results; otherwise recruitment, selection & training costs rise</span></li>
+    <li><b>13. Initiative</b> <span class="d">— encourage workers to make & carry out improvement plans (not defying established practices); reward suggestions via an employee suggestion system</span></li>
+    <li><b>14. Esprit de corps</b> <span class="d">— team spirit, unity & harmony; replace "I" with "We" → mutual trust & belongingness; fewer penalties needed</span></li>
+  </ul>
+
+  <h3>🔗 Scalar Chain & Gang Plank</h3>
+  <div style="display:grid;grid-template-columns:44px 1fr 44px;gap:4px;max-width:260px;margin:10px auto;text-align:center;font-weight:700;font-size:13px">
+    <span></span><span style="background:#16a34a;color:#fff;border-radius:6px;padding:3px 0">A</span><span></span>
+    <span style="background:#f1f5f9;border-radius:6px;padding:3px 0">B</span><span></span><span style="background:#f1f5f9;border-radius:6px;padding:3px 0">L</span>
+    <span style="background:#f1f5f9;border-radius:6px;padding:3px 0">C</span><span></span><span style="background:#f1f5f9;border-radius:6px;padding:3px 0">M</span>
+    <span style="background:#f1f5f9;border-radius:6px;padding:3px 0">D</span><span></span><span style="background:#f1f5f9;border-radius:6px;padding:3px 0">N</span>
+    <span style="background:#fb923c;color:#fff;border-radius:6px;padding:3px 0">E</span><span style="border-bottom:2px dashed #ea580c;color:#ea580c;font-size:11px;align-self:center">gang plank</span><span style="background:#fb923c;color:#fff;border-radius:6px;padding:3px 0">O</span>
+    <span style="background:#f1f5f9;border-radius:6px;padding:3px 0">F</span><span></span><span style="background:#f1f5f9;border-radius:6px;padding:3px 0">P</span>
+  </div>
+  <div class="grid2">
+    <div class="box"><b>Normal route</b><span class="d">E → D → C → B → A → L → M → N → O</span></div>
+    <div class="box"><b>Emergency (gang plank)</b><span class="d">E ⇢ O directly (same level), so communication isn't delayed</span></div>
+  </div>
+
+  <h3>⚖️ Unity of Command vs Unity of Direction</h3>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Unity of Command</th><th>Unity of Direction</th></tr>
+    <tr><td>Meaning</td><td><span class="d">One subordinate receives orders from & reports to only one superior</span></td><td><span class="d">Each group of activities with the same objective has one head & one plan</span></td></tr>
+    <tr><td>Aim</td><td><span class="d">Prevents dual subordination</span></td><td><span class="d">Prevents overlapping of activities</span></td></tr>
+    <tr><td>Implications</td><td><span class="d">Affects an individual employee</span></td><td><span class="d">Affects the entire organisation</span></td></tr>
+  </table></div>
+  <div class="hook">✅ Unity of command useful because → <span class="d">no confusion over tasks, clear accountability, discipline & stability maintained</span></div>
+
+  <h3>📌 Case Lines</h3>
+  <div class="hook">📌 Marketing allows 10% discount, finance only 5% → <span class="d">Unity of Command violated</span></div>
+  <div class="hook">📌 Company makes motorcycles & cars → <span class="d">separate divisions, each with its own head & plan = Unity of Direction</span></div>
+  <div class="hook">📌 Sales manager needs 60-day credit to win a deal, allowed only 40 → <span class="d">Authority ≠ Responsibility (but 100 days would be excess)</span></div>
+  <div class="hook">📌 Wales Ltd gives new hires SanakLal & Gagan 1 year to prove themselves → <span class="d">Stability of Personnel</span></div>
+  <div class="hook">📌 Mr. Rathore orders from his cousin at a higher price → <span class="d">Subordination of individual interest violated · following it → org goals met, unbiased decisions, manager sets an example</span></div>
+  <div class="hook">📌 No right place for physical & human resources → <span class="d">Order violated → delays, wastage, lower productivity</span></div>
+  <div class="hook">📌 Bhasin Ltd: many bosses, divisions on 2+ products, indiscipline, team spirit gone, workers feel cheated, initiative falling → <span class="d">Unity of command · Unity of direction · Discipline · Esprit de corps · Remuneration/Equity · Initiative</span></div>
+</section>
+
+<!-- 9 FAYOL vs TAYLOR -->
+<section class="card" id="vs" style="--c:#db2777">
+  <h2><span class="num">9</span>Fayol vs Taylor</h2>
+  <div class="tw"><table>
+    <tr><th>Basis</th><th>Henri Fayol</th><th>F.W. Taylor</th></tr>
+    <tr><td>Perspective</td><td><span class="d">Top level of management</span></td><td><span class="d">Shop floor of a factory</span></td></tr>
+    <tr><td>Unity of command</td><td><span class="d">Staunch proponent</span></td><td><span class="d">Not important (worker gets orders from 8 foremen)</span></td></tr>
+    <tr><td>Applicability</td><td><span class="d">Universal</span></td><td><span class="d">Specialised situations</span></td></tr>
+    <tr><td>Basis of formation</td><td><span class="d">Personal experience</span></td><td><span class="d">Observation & experimentation</span></td></tr>
+    <tr><td>Focus</td><td><span class="d">Improving overall administration</span></td><td><span class="d">Increasing productivity</span></td></tr>
+    <tr><td>Personality</td><td><span class="d">Practitioner</span></td><td><span class="d">Scientist</span></td></tr>
+    <tr><td>Expression</td><td><span class="d">General Theory of Administration</span></td><td><span class="d">Scientific Management</span></td></tr>
+  </table></div>
+  <div class="hook">🔑 Not rivals: their contributions are <b>complementary</b> · Taylor = <span class="d">worker efficiency</span> · Fayol = <span class="d">managerial efficiency</span></div>
+
+  <h3>🕰️ Fayol: Then & Now</h3>
+  <div class="tw"><table>
+    <tr><th>Principle</th><th>Then</th><th>Now</th></tr>
+    <tr><td>Division of work</td><td><span class="d">Specialisation</span></td><td><span class="d">Generalisation</span></td></tr>
+    <tr><td>Authority & resp.</td><td><span class="d">Managers empowered</span></td><td><span class="d">Employees empowered</span></td></tr>
+    <tr><td>Discipline</td><td><span class="d">Formal controls</span></td><td><span class="d">Informal, peer pressure</span></td></tr>
+    <tr><td>Unity of command</td><td><span class="d">One boss</span></td><td><span class="d">Multiple bosses</span></td></tr>
+    <tr><td>Unity of direction</td><td><span class="d">One plan, one boss</span></td><td><span class="d">Multiple plans & bosses</span></td></tr>
+    <tr><td>Subordination</td><td><span class="d">Employee committed to org</span></td><td><span class="d">Org & employee committed to each other</span></td></tr>
+    <tr><td>Remuneration</td><td><span class="d">Reasonable pay</span></td><td><span class="d">Performance-based</span></td></tr>
+    <tr><td>Centralisation</td><td><span class="d">Trickle-down decisions</span></td><td><span class="d">Task-relevant ad hoc decisions</span></td></tr>
+    <tr><td>Scalar chain</td><td><span class="d">Hierarchical, formal</span></td><td><span class="d">Flatter, less formal</span></td></tr>
+    <tr><td>Order</td><td><span class="d">Info system for control</span></td><td><span class="d">Info system for coordination</span></td></tr>
+    <tr><td>Equity</td><td><span class="d">Commitment via kindness</span></td><td><span class="d">Commitment via ownership</span></td></tr>
+    <tr><td>Stability</td><td><span class="d">Train & encourage to stay</span></td><td><span class="d">Ongoing training & development</span></td></tr>
+    <tr><td>Initiative</td><td><span class="d">Managers create ideas</span></td><td><span class="d">Workers create ideas</span></td></tr>
+    <tr><td>Esprit de corps</td><td><span class="d">High morale imperative</span></td><td><span class="d">High morale desirable</span></td></tr>
+  </table></div>
+  <div class="hook">🔑 Principles still apply, but their <b>interpretation</b> has changed <span class="d">(flat structures → employee empowerment)</span></div>
+</section>
+
+</main>
+
+<button id="t">🧠 Test Me</button>
+
+<script>
+  const btn = document.getElementById('t');
+  btn.onclick = () => {
+    document.body.classList.toggle('recall');
+    document.querySelectorAll('.d.show').forEach(e => e.classList.remove('show'));
+    btn.textContent = document.body.classList.contains('recall') ? '👁 Show All' : '🧠 Test Me';
+  };
+  document.addEventListener('click', e => {
+    const d = e.target.closest('.d');
+    if (d && document.body.classList.contains('recall')) d.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>

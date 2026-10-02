@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 1 · Nature & Significance of Management</title>
+<style>
+  :root{--ink:#1d2433;--mute:#5b6577;--bg:#f4f6fb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px}
+  header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:18px 16px 14px}
+  header h1{margin:0;font-size:20px}
+  header p{margin:4px 0 0;opacity:.9;font-size:13px}
+  .chaps{display:flex;gap:6px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
+  .chaps::-webkit-scrollbar{display:none}
+  .chaps a{flex:none;text-decoration:none;color:#fff;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4)}
+  .chaps a.on{background:#fff;color:#4f46e5}
+  nav{position:sticky;top:0;z-index:5;background:#fff;display:flex;gap:6px;overflow-x:auto;padding:8px 10px;box-shadow:0 2px 6px rgba(0,0,0,.07);scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav a{flex:none;text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600}
+  main{max-width:720px;margin:auto;padding:4px 12px 90px}
+  .card{background:#fff;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:5px solid var(--c);scroll-margin-top:56px}
+  h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+  .num{background:var(--c);color:#fff;border-radius:8px;min-width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+  h3{font-size:14px;margin:12px 0 6px;color:var(--c);text-transform:uppercase;letter-spacing:.5px}
+  .def{background:#f1f5ff;border-radius:10px;padding:10px 12px;font-weight:600}
+  .def small{display:block;font-weight:400;color:var(--mute);margin-top:4px;font-style:italic}
+  .mn{background:#fff7ed;border:1px dashed #fb923c;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+  .mn u{text-decoration:none;color:#ea580c;font-weight:800;font-size:16px}
+  ul.k{list-style:none;padding:0;margin:0}
+  ul.k li{padding:8px 0;border-bottom:1px solid #eef0f4}
+  ul.k li:last-child{border-bottom:none}
+  ul.k b{color:var(--c)}
+  .d{color:var(--mute);transition:filter .2s}
+  body.recall .d{filter:blur(5px);cursor:pointer;user-select:none}
+  body.recall .d.show{filter:none}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+  .full{grid-column:1/-1}
+  .box{border-radius:10px;padding:10px;background:#f8fafc;font-size:14px}
+  .box b{display:block;font-size:15px;margin-bottom:2px}
+  .y{color:#16a34a;font-weight:800}
+  .n{color:#dc2626;font-weight:800}
+  .p{color:#d97706;font-weight:800}
+  .legend{font-size:13px;color:var(--mute);margin-bottom:4px}
+  .row{display:flex;gap:6px;align-items:flex-start;margin-top:5px;font-size:14px}
+  .tag{flex:none;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;margin-top:1px}
+  .tag.r{background:#f3e8ff;color:#7e22ce}
+  .tag.m{background:#dcfce7;color:#15803d}
+  .verdict{font-weight:700;background:#faf5ff;border-radius:10px;padding:8px 10px;margin:8px 0;font-size:14px}
+  .tier{margin:6px auto;border-radius:10px;padding:9px 11px;color:#fff;font-size:14px}
+  .tier b{font-size:15px}
+  .t1{width:62%;background:#e11d48}
+  .t2{width:81%;background:#f43f5e}
+  .t3{width:100%;background:#fb7185}
+  .tier .d{color:#fff;opacity:.95}
+  .flow{display:flex;flex-wrap:wrap;gap:6px}
+  .step{flex:1 1 30%;min-width:140px;background:#f0fdfa;border-radius:10px;padding:8px 10px;font-size:14px}
+  .step b{color:#0d9488;font-size:16px}
+  .hook{background:#ecfdf5;border-radius:8px;padding:6px 10px;font-size:14px;margin-top:8px}
+  #t{position:fixed;right:14px;bottom:16px;z-index:9;border:none;border-radius:999px;padding:12px 18px;font-size:15px;font-weight:700;color:#fff;background:#111827;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  @media(max-width:420px){.grid2{grid-template-columns:1fr}.t1{width:75%}.t2{width:88%}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ch 1 · Nature & Significance of Management</h1>
+  <p>Tap 🧠 Test Me to hide answers → tap blurred text to reveal</p>
+  <!--
+    CHAPTER FILE NAMES (keep all files in the same folder):
+    Ch 1 = index.html
+    Ch 2 = chapter2.html   Ch 3 = chapter3.html   Ch 4 = chapter4.html
+    Ch 5 = chapter5.html   Ch 6 = chapter6.html   Ch 7 = chapter7.html
+    Ch 8 = chapter8.html
+    In each file, put class="on" on that chapter's own button.
+  -->
+  <div class="chaps">
+    <a href="index.html" class="on">1 · Nature</a>
+    <a href="chapter2.html">2 · Principles</a>
+    <a href="chapter3.html">3 · Environment</a>
+    <a href="chapter4.html">4 · Planning</a>
+    <a href="chapter5.html">5 · Organising</a>
+    <a href="chapter6.html">6 · Staffing</a>
+    <a href="chapter7.html">7 · Directing</a>
+    <a href="chapter8.html">8 · Controlling</a>
+  </div>
+</header>
+
+<nav>
+  <a href="#concept">Concept</a><a href="#feat">Features</a><a href="#obj">Objectives</a><a href="#imp">Importance</a><a href="#nature">Art/Science</a><a href="#levels">Levels</a><a href="#func">Functions</a><a href="#coord">Coordination</a>
+</nav>
+
+<main>
+
+<!-- 1 CONCEPT -->
+<section class="card" id="concept" style="--c:#4f46e5">
+  <h2><span class="num">1</span>Concept</h2>
+  <div class="def">Management = <u>process</u> of getting things done to achieve goals <u>effectively</u> & <u>efficiently</u>.
+    <small>Koontz: "Designing and maintaining an environment in which individuals, working together in groups, efficiently accomplish selected aims."</small>
+  </div>
+  <div class="grid2">
+    <div class="box full"><b>⚙️ Process</b><span class="d">The primary functions management performs to get things done: Planning, Organising, Staffing, Directing, Controlling.</span></div>
+    <div class="box"><b>🎯 Effectiveness</b><span class="d">Doing the RIGHT task. Focus = end result / goal achieved.</span></div>
+    <div class="box"><b>💰 Efficiency</b><span class="d">Doing the task RIGHT. Focus = minimum cost (input vs output).</span></div>
+  </div>
+  <div class="hook">🔑 Effective = <b>E</b>nd result · Efficient = <b>E</b>conomical</div>
+  <h3>Case (Target: 500 units @ ₹100 = ₹50,000)</h3>
+  <ul class="k">
+    <li><b>Ashita:</b> 500 units for ₹55,000 <span class="d">→ Effective ✓ · Efficient ✗ (target met, cost too high)</span></li>
+    <li><b>Lakshita:</b> 450 units @ ₹90 <span class="d">→ Efficient ✓ · Effective ✗ (cheap, target missed)</span></li>
+  </ul>
+  <div class="hook">Ideal = both. Poor management = neither.</div>
+</section>
+
+<!-- 2 FEATURES -->
+<section class="card" id="feat" style="--c:#0891b2">
+  <h2><span class="num">2</span>Characteristics (7)</h2>
+  <div class="mn">🧠 <u>G</u>ood <u>A</u>pples <u>M</u>ake <u>C</u>ool <u>G</u>reen <u>D</u>rinks <u>I</u>nstantly</div>
+  <ul class="k">
+    <li><b>Goal-oriented</b> <span class="d">— unites everyone's effort towards organisation's goals</span></li>
+    <li><b>All-pervasive</b> <span class="d">— needed everywhere (school, hospital, petrol pump; India or USA). WHAT is same, HOW differs (culture)</span></li>
+    <li><b>Multidimensional</b> <span class="d">— 3 dimensions: Work · People (individuals + groups) · Operations (input → output)</span></li>
+    <li><b>Continuous</b> <span class="d">— functions done simultaneously, all the time</span></li>
+    <li><b>Group activity</b> <span class="d">— people with different needs work towards one common goal</span></li>
+    <li><b>Dynamic</b> <span class="d">— adapts to environment (McDonald's changed menu for India)</span></li>
+    <li><b>Intangible</b> <span class="d">— can't be seen, only felt (targets met, happy staff, order not chaos)</span></li>
+  </ul>
+</section>
+
+<!-- 3 OBJECTIVES -->
+<section class="card" id="obj" style="--c:#16a34a">
+  <h2><span class="num">3</span>Objectives (3)</h2>
+  <div class="mn">🧠 <u>O</u>rganisational · <u>S</u>ocial · <u>P</u>ersonal → Org ladder: <u>S</u>urvival → <u>P</u>rofit → <u>G</u>rowth</div>
+  <ul class="k">
+    <li><b>Organisational</b> <span class="d">— Survival (revenue ≥ costs) · Profit (covers costs & risks, incentive) · Growth (indicators: sales, no. of employees, no. of products, capital investment)</span></li>
+    <li><b>Social</b> <span class="d">— benefit society: eco-friendly production, jobs for underprivileged, schools & healthcare (e.g. ITC e-Choupal)</span></li>
+    <li><b>Personal</b> <span class="d">— employees' needs: financial (salary), social (recognition), higher (growth). Must match with org goals</span></li>
+  </ul>
+  <div class="hook">📌 Indian Railways solar train → <span class="d">Social (green) + Organisational (₹12 lakh saving = profit)</span></div>
+</section>
+
+<!-- 4 IMPORTANCE -->
+<section class="card" id="imp" style="--c:#d97706">
+  <h2><span class="num">4</span>Importance (5)</h2>
+  <div class="mn">🧠 <u>G</u>ood <u>E</u>mployees <u>D</u>evelop <u>P</u>eople & <u>S</u>ociety</div>
+  <ul class="k">
+    <li><b>Group goals</b> <span class="d">— gives common direction to individual efforts</span></li>
+    <li><b>Efficiency ↑</b> <span class="d">— reduces cost, increases productivity</span></li>
+    <li><b>Dynamic organisation</b> <span class="d">— helps people adapt to change (people resist change)</span></li>
+    <li><b>Personal objectives</b> <span class="d">— through motivation & leadership</span></li>
+    <li><b>Society's development</b> <span class="d">— quality products, jobs, new technology</span></li>
+  </ul>
+</section>
+
+<!-- 5 NATURE -->
+<section class="card" id="nature" style="--c:#9333ea">
+  <h2><span class="num">5</span>Art · Science · Profession</h2>
+  <div class="legend"><span class="y">✓</span> Met · <span class="p">◐</span> Partly met · <span class="n">✗</span> Not met &nbsp;|&nbsp; <span class="tag r">Needs</span> what the feature requires · <span class="tag m">Mgmt</span> how management fits</div>
+
+  <h3>🎨 Management as an Art</h3>
+  <div class="def">Art = skilful & personal application of existing knowledge to achieve desired results.
+    <small>Acquired through study, observation & experience.</small>
+  </div>
+  <div class="mn">🧠 <u>T</u>alented <u>P</u>eople <u>P</u>ractise → Theory · Personalised · Practice</div>
+  <ul class="k">
+    <li><b>1. Theoretical knowledge</b> <span class="y">✓</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Basic principles laid down by experts (books on dance, music, acting)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Vast literature in marketing, finance, HR; manager learns through study, observation & experience</span></div>
+    </li>
+    <li><b>2. Personalised application</b> <span class="y">✓</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Use of knowledge differs person to person (two dancers always differ)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Each manager applies the same principles in own way to suit the situation → different management styles</span></div>
+    </li>
+    <li><b>3. Practice & creativity</b> <span class="y">✓</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Creative practice of theory (same 7 notes → unique music)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Manager uses creativity, imagination, initiative & innovation; perfection comes after long practice</span></div>
+    </li>
+  </ul>
+  <div class="verdict">✅ <span class="d">Fully an ART. A good manager stands out by ability to put principles into practice</span></div>
+
+  <h3>🔬 Management as a Science</h3>
+  <div class="def">Science = systematised body of knowledge explaining general truths / general laws.</div>
+  <div class="mn">🧠 <u>S</u>cientists <u>E</u>xperiment <u>U</u>niversally → Systematised · Experiments · Universal</div>
+  <ul class="k">
+    <li><b>1. Systematised knowledge</b> <span class="y">✓</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Organised knowledge based on cause & effect (apple falls → gravity)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Own theories, principles & vocabulary (like cricket terms); also draws from Economics, Sociology, Psychology, Maths</span></div>
+    </li>
+    <li><b>2. Based on experimentation</b> <span class="p">◐</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Principles developed by observation, tested by repeated experiments under controlled conditions</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Principles evolved through experiments in organisations (Taylor, Fayol) BUT deals with humans → results can't be exactly predicted or repeated</span></div>
+    </li>
+    <li><b>3. Universal validity</b> <span class="n">✗</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Principles apply everywhere, every time</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Principles must be modified for each situation; still give standard techniques & are used to train managers</span></div>
+    </li>
+  </ul>
+  <div class="verdict">◐ <span class="d">INEXACT science (because human behaviour is unpredictable)</span></div>
+  <div class="hook">🔑 Principles = Science · Practice = Art → not mutually exclusive, they <b>complement</b> each other</div>
+
+  <h3>👔 Management as a Profession</h3>
+  <div class="mn">🧠 <u>B</u>ig <u>R</u>estaurants <u>A</u>lways <u>E</u>arn <u>S</u>tars → Body · Restricted · Association · Ethics · Service</div>
+  <ul class="k">
+    <li><b>1. Well-defined body of knowledge</b> <span class="y">✓</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Specialised knowledge acquired through instruction</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Taught at colleges & IIMs, plus books & journals; entry to institutes via exams</span></div>
+    </li>
+    <li><b>2. Restricted entry</b> <span class="n">✗</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Entry only through exam/degree (CA must clear ICAI exam)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Anyone can be a manager; no degree compulsory anywhere in the world (only desirable)</span></div>
+    </li>
+    <li><b>3. Professional association</b> <span class="p">◐</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Body that regulates entry & grants certificate to practise (lawyers → Bar Council)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">AIMA exists, but membership is optional & it has no statutory (legal) backing</span></div>
+    </li>
+    <li><b>4. Ethical code of conduct</b> <span class="p">◐</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Binding code guiding members (doctors take an oath)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">AIMA has a code of conduct, but managers aren't forced to follow it</span></div>
+    </li>
+    <li><b>5. Service motive</b> <span class="p">◐</span>
+      <div class="row"><span class="tag r">Needs</span><span class="d">Dedicated service to clients (lawyer ensures client gets justice)</span></div>
+      <div class="row"><span class="tag m">Mgmt</span><span class="d">Main aim = org goals (profit / service); but efficient mgmt serves society automatically via quality products at fair prices</span></div>
+    </li>
+  </ul>
+  <div class="verdict">◐ <span class="d">NOT a full-fledged profession, but professional in character to a large extent</span></div>
+</section>
+
+<!-- 6 LEVELS -->
+<section class="card" id="levels" style="--c:#e11d48">
+  <h2><span class="num">6</span>Levels of Management</h2>
+  <div class="tier t1"><b>TOP</b> · CEO, Chairman, President, VP, CFO<br><span class="d">Set goals & strategies · analyse environment · coordinate all depts · responsible for survival & social impact</span></div>
+  <div class="tier t2"><b>MIDDLE</b> · Division heads (e.g. Production Mgr)<br><span class="d">Link between top & lower · interpret policies · ensure staff · assign duties · motivate · cooperate with other depts</span></div>
+  <div class="tier t3"><b>OPERATIONAL</b> · Foremen, Supervisors<br><span class="d">Oversee workers · pass instructions · maintain quality · minimise wastage · ensure safety</span></div>
+  <div class="hook">🔑 Top <b>Thinks</b> · Middle <b>Mediates</b> · Operational <b>Oversees</b></div>
+</section>
+
+<!-- 7 FUNCTIONS -->
+<section class="card" id="func" style="--c:#0d9488">
+  <h2><span class="num">7</span>Functions (5)</h2>
+  <div class="mn">🧠 <u>P</u>lease <u>O</u>rganise <u>S</u>ome <u>D</u>elicious <u>C</u>ake</div>
+  <div class="flow">
+    <div class="step"><b>P</b>lanning<br><span class="d">Decide in advance what & who. Predicts problems (can't prevent them)</span></div>
+    <div class="step"><b>O</b>rganising<br><span class="d">Assign duties, group tasks, set authority, allocate resources</span></div>
+    <div class="step"><b>S</b>taffing<br><span class="d">Right person, right job: recruit, select, place, train</span></div>
+    <div class="step"><b>D</b>irecting<br><span class="d">Lead, motivate, communicate, supervise</span></div>
+    <div class="step"><b>C</b>ontrolling<br><span class="d">Set standards → measure → compare → correct</span></div>
+  </div>
+  <div class="hook">Functions are interrelated, not done strictly one after another.</div>
+</section>
+
+<!-- 8 COORDINATION -->
+<section class="card" id="coord" style="--c:#2563eb">
+  <h2><span class="num">8</span>Coordination</h2>
+  <div class="def">Synchronising the activities of different departments towards a common goal.
+    <small>The ESSENCE of management, like the thread in a garland. NOT a separate function.</small>
+  </div>
+  <h3>Features (6)</h3>
+  <div class="mn">🧠 <u>I</u> <u>C</u><u>A</u><u>R</u><u>D</u> <u>U</u></div>
+  <ul class="k">
+    <li><b>Integrates</b> group efforts <span class="d">— diverse interests → one purpose</span></li>
+    <li><b>Continuous</b> <span class="d">— from planning to controlling</span></li>
+    <li><b>All-pervasive</b> <span class="d">— all levels & all departments</span></li>
+    <li><b>Responsibility</b> of all managers <span class="d">— top, middle & operational</span></li>
+    <li><b>Deliberate</b> <span class="d">— conscious effort, doesn't happen by itself</span></li>
+    <li><b>Unity</b> of action <span class="d">— binding force between departments</span></li>
+  </ul>
+  <div class="grid2">
+    <div class="box"><b>Cooperation without coordination</b><span class="d">= wasted effort</span></div>
+    <div class="box"><b>Coordination without cooperation</b><span class="d">= employee dissatisfaction</span></div>
+  </div>
+  <h3>Why needed (3)</h3>
+  <div class="mn">🧠 <u>G</u>et <u>F</u>ood <u>S</u>oon</div>
+  <ul class="k">
+    <li><b>Growth in size</b> <span class="d">— more people → must match individual & org goals</span></li>
+    <li><b>Functional differentiation</b> <span class="d">— depts clash (marketing wants discounts, finance refuses)</span></li>
+    <li><b>Specialisation</b> <span class="d">— specialists ignore others' advice → need a neutral coordinator</span></li>
+  </ul>
+</section>
+
+</main>
+
+<button id="t">🧠 Test Me</button>
+
+<script>
+  const btn = document.getElementById('t');
+  btn.onclick = () => {
+    document.body.classList.toggle('recall');
+    document.querySelectorAll('.d.show').forEach(e => e.classList.remove('show'));
+    btn.textContent = document.body.classList.contains('recall') ? '👁 Show All' : '🧠 Test Me';
+  };
+  document.addEventListener('click', e => {
+    const d = e.target.closest('.d');
+    if (d && document.body.classList.contains('recall')) d.classList.toggle('show');
+  });
+</script>
+
+</body>
+</html>
